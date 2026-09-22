@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asset Inspector</title>
+</head>
+<body>
+  <div id="results">Running inspection...</div>
+  <script>
+    async function inspect() {
+      let results = [];
+      const appendResult = (str) => {
+        results.push(str);
+        document.getElementById('results').innerText = results.join('\n');
+      };
+
+      // 1. Inspect Image
+      const checkImage = async (src, name) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.drawImage(img, 0, 0);
+            const data = ctx.getImageData(0, 0, img.width, img.height).data;
+            
+            let hasTransparent = false;
+            let opaqueBg = true;
+            let bounds = { minX: img.width, minY: img.height, maxX: 0, maxY: 0 };
+            
+            // Check corners for opaque bg
+            const isOpaque = (idx) => data[idx + 3] === 255;
+            const topLeftOpaque = isOpaque(0);
+            
+            for (let y = 0; y < img.height; y++) {
+              for (let x = 0; x < img.width; x++) {
+                const idx = (y * img.width + x) * 4;
+                const alpha = data[idx + 3];
+                if (alpha < 255) opaqueBg = false;
+                if (alpha === 0) hasTransparent = true;
+                
+                // If not fully transparent, it's part of the bounding box
+                if (alpha > 0) {
+                  if (x < bounds.minX) bounds.minX = x;
+                  if (x > bounds.maxX) bounds.maxX = x;
+                  if (y < bounds.minY) bounds.minY = y;
+                  if (y > bounds.maxY) bounds.maxY = y;
+                }
+              }
+            }
+            
+            appendResult(`\n[${name}] Dimensions: ${img.width}x${img.height}`);
+            appendResult(`[${name}] Has Transparency: ${hasTransparent}`);
+            appendResult(`[${name}] Solid Background: ${opaqueBg}`);
+            appendResult(`[${name}] Content Bounding Box: X:${bounds.minX}-${bounds.maxX}, Y:${bounds.minY}-${bounds.maxY}`);
+            appendResult(`[${name}] Padding: Top:${bounds.minY}, Bottom:${img.height - bounds.maxY}, Left:${bounds.minX}, Right:${img.width - bounds.maxX}`);
+            resolve();
+          };
+          img.onerror = reject;
+        });
+      };
+
+      await checkImage('/logos/brantra-logo (1).png', 'Symbol Logo');
+      await checkImage('/logos/brantra-wordmark.png', 'Wordmark Logo');
+
+      // 2. Inspect Video
+      const checkVideo = async () => {
+        return new Promise((resolve, reject) => {
+          const video = document.createElement('video');
+          video.muted = true;
+          video.src = '/brantra-intro.mp4';
+          
+          video.addEventListener('loadedmetadata', () => {
+            appendResult(`\n[Intro Video] Duration: ${video.duration}s`);
+            appendResult(`[Intro Video] Dimensions: ${video.videoWidth}x${video.videoHeight}`);
+          });
+
+          video.addEventListener('seeked', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            // Get center pixel color
+            const data = ctx.getImageData(canvas.width/2, canvas.height/2, 1, 1).data;
+            const topData = ctx.getImageData(10, 10, 1, 1).data; // top corner
+            appendResult(`[Intro Video] Frame at ${video.currentTime}s - Center Pixel: rgb(${data[0]},${data[1]},${data[2]}) | TopCorner: rgb(${topData[0]},${topData[1]},${topData[2]})`);
+            
+            if (video.currentTime === 0) {
+              video.currentTime = video.duration - 0.1; // Check last frame
+            } else {
+              resolve();
+            }
+          });
+          
+          video.currentTime = 0; // Trigger first seek
+        });
+      };
+      
+      await checkVideo();
+      appendResult('\nInspection Complete.');
+    }
+    
+    inspect();
+  </script>
+</body>
+</html>

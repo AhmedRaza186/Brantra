@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-ink: var(--ink);
+  --color-text-secondary: var(--text-secondary);
+  --color-navigation: var(--navigation);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-completed: var(--completed);
+  --color-waiting: var(--waiting);
+  --color-urgent: var(--urgent);
+  --color-border: var(--border);
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --canvas: #F6F2F1; /* Kept strictly for seamless intro video integration */
+  --surface: #FFFFFF; /* Pure white for crisp contrast */
+  --surface-secondary: #F4E7EA;
+  --ink: #0A0A0A; /* Sharper, deeper black for editorial contrast */
+  --text-secondary: #737373; /* Clean neutral grey, removing the muddy brown tint */
+  --navigation: #0A0A0A;
+  --accent: #D85170;
+  --accent-hover: #BC405E;
+  --completed: #475569; /* Cleaner slate instead of muddy green */
+  --waiting: #D97706; /* Cleaner amber instead of muddy brown */
+  --urgent: #DC2626; /* Crisper red */
+  --border: #E5E5E5; /* Clean, light neutral grey */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Premium Card Shadows */
+.shadow-premium {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 0 3px rgba(0,0,0,0.02);
+}
+
+/* Typography Utility Classes */
+.text-page-heading {
+  @apply text-[24px] md:text-[28px] font-semibold leading-[1.1] tracking-[-0.02em];
+}
+
+.text-campaign-title {
+  @apply text-[18px] md:text-[22px] font-semibold leading-[1.2] tracking-[-0.015em];
+}
+
+.text-section-heading {
+  @apply text-[15px] md:text-[16px] font-semibold leading-snug tracking-tight;
+}
+
+.text-body-primary {
+  @apply text-[13px] md:text-[14px] leading-[1.6] tracking-[0.01em];
+}
+
+.text-body-secondary {
+  @apply text-[12px] md:text-[13px] leading-relaxed text-text-secondary tracking-[0.01em];
+}
+
+.text-metric-value {
+  @apply text-[28px] md:text-[32px] font-semibold leading-none tracking-[-0.03em] tabular-nums;
+}
+
+/* Motion System */
+@media (prefers-reduced-motion: no-preference) {
+  /* Restrained Page Entrance (0ms to 200ms stagger, max 500ms total) */
+  .animate-reveal {
+    animation: reveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .stagger-0 { animation-delay: 0ms; }
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+
+  @keyframes reveal {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Urgent Pulse (max 2 pulses) */
+  .animate-pulse-twice {
+    animation: pulse-twice 1.5s cubic-bezier(0.4, 0, 0.6, 1) 2;
+  }
+  @keyframes pulse-twice {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.8; }
+  }
+
+  /* Drawing Animations for workflow and charts */
+  .animate-draw-x {
+    animation: draw-x 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: left center;
+  }
+  @keyframes draw-x {
+    0% { transform: scaleX(0); }
+    100% { transform: scaleX(1); }
+  }
+
+  .animate-draw-y {
+    animation: draw-y 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: bottom center;
+  }
+  @keyframes draw-y {
+    0% { transform: scaleY(0); }
+    100% { transform: scaleY(1); }
+  }
+
+  /* SVG Path Drawing */
+  .animate-draw-path {
+    animation: draw-path 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes draw-path {
+    0% { stroke-dashoffset: 1000; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  /* Restrained Hover/Transitions */
+  .transition-row {
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .transition-btn {
+    transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  }
+  .transition-btn:active {
+    transform: scale(0.98);
+  }
+  .transition-nav {
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+}
+
+/* Fallback for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Smooth textarea expansion */
+.textarea-expandable {
+  min-height: 40px;
+  max-height: 200px;
+  transition: min-height 0.2s ease;
+}
+.textarea-expandable:focus-within {
+  min-height: 100px;
 }
