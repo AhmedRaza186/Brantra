@@ -21,9 +21,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} h-full scroll-smooth`}
+      className={`${instrumentSans.variable} scroll-smooth`}
     >
-      <body className="h-full flex flex-col font-sans bg-canvas text-ink">
+      <body className="min-h-screen flex flex-col font-sans bg-canvas text-ink">
         {children}
       </body>
     </html>
