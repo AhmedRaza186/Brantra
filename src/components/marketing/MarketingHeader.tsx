@@ -72,13 +72,13 @@ export function MarketingHeader() {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
             <Link
-              href="/dashboard"
+              href="/login"
               className="text-[14px] font-bold font-mono uppercase tracking-widest text-ink hover:underline underline-offset-4 focus-visible outline-none"
             >
-              View dashboard
+              Log in
             </Link>
             <Link
-              href="#early-access"
+              href="/signup"
               className="flex h-10 items-center justify-center bg-accent px-5 text-[14px] font-bold font-mono uppercase tracking-widest text-white border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] transition-all focus-visible outline-none"
             >
               Join early access
@@ -120,14 +120,14 @@ export function MarketingHeader() {
               How it works
             </Link>
             <Link
-              href="/dashboard"
+              href="/login"
               onClick={closeMobileMenu}
               className="text-[20px] font-bold font-mono uppercase text-ink mt-8"
             >
-              View dashboard
+              Log in
             </Link>
             <Link
-              href="#early-access"
+              href="/signup"
               onClick={closeMobileMenu}
               className="mt-4 flex h-14 items-center justify-center bg-accent border-2 border-ink shadow-[6px_6px_0px_0px_rgba(30,26,29,1)] px-6 text-[16px] font-bold font-mono uppercase text-white"
             >

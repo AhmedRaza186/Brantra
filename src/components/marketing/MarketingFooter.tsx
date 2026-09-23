@@ -42,7 +42,7 @@ export function MarketingFooter() {
               <Link href="#product" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">Product</Link>
               <Link href="#how-it-works" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">How it works</Link>
               <Link href="#why-brantra" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">Why Brantra</Link>
-              <Link href="/dashboard" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">View dashboard</Link>
+              <Link href="/login" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">Log in</Link>
             </div>
             
             <div className="flex flex-col gap-4">
