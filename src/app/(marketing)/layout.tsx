@@ -15,6 +15,7 @@ export const metadata = {
 
 import { MarketingHeader } from "@/components/marketing/MarketingHeader";
 import { MarketingFooter } from "@/components/marketing/MarketingFooter";
+import { SmoothScroll } from "@/components/marketing/SmoothScroll";
 
 export default function MarketingLayout({
   children,
@@ -22,12 +23,14 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`${instrumentSerif.variable} flex flex-col min-h-screen relative overflow-x-hidden bg-canvas`}>
-      <MarketingHeader />
-      <main className="flex-1 w-full pt-[80px]">
-        {children}
-      </main>
-      <MarketingFooter />
-    </div>
+    <SmoothScroll>
+      <div className={`${instrumentSerif.variable} flex flex-col min-h-screen relative overflow-x-hidden bg-canvas`}>
+        <MarketingHeader />
+        <main className="flex-1 w-full pt-[80px]">
+          {children}
+        </main>
+        <MarketingFooter />
+      </div>
+    </SmoothScroll>
   );
 }
