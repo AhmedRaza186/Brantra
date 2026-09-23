@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Play, Sparkles } from "lucide-react";
 
 export function HeroSection() {
@@ -19,7 +19,7 @@ export function HeroSection() {
           {/* Funky Retro Sticker */}
           <div className="absolute -top-12 -left-4 md:-left-12 rotate-[-12deg] bg-accent text-white px-4 py-2 font-mono text-[12px] font-bold uppercase tracking-widest border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] z-20 animate-pulse-twice">
             <Sparkles className="inline-block w-4 h-4 mr-1 mb-0.5" /> 
-            v1.0 Beta
+            PRIVATE BETA
           </div>
 
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-canvas border-2 border-ink text-ink text-[12px] font-bold tracking-widest uppercase mb-8 shadow-[4px_4px_0px_0px_rgba(30,26,29,1)]">
@@ -33,7 +33,7 @@ export function HeroSection() {
           </h1>
           
           <p className="text-[16px] md:text-[20px] text-ink font-medium leading-relaxed max-w-xl mb-10 mt-6 bg-canvas/80 p-4 border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] backdrop-blur-sm">
-            Brantra keeps every brief, deliverable, revision, deadline and payment in one focused workspace—built for creators managing it all themselves.
+            Brantra keeps every brief, deliverable, revision, deadline and payment in one focused workspaceâ€”built for creators managing it all themselves.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center gap-6 w-full sm:w-auto mt-4">
@@ -41,7 +41,7 @@ export function HeroSection() {
               href="#early-access"
               className="w-full sm:w-auto flex h-14 items-center justify-center bg-accent px-8 text-[16px] font-bold text-white border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] transition-all focus-visible outline-none"
             >
-              Join Early Access
+              Join early access
             </Link>
             <Link
               href="#video-tour"
@@ -70,7 +70,7 @@ export function HeroSection() {
               </div>
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-blue-100 border-2 border-ink flex items-center justify-center text-[12px]">📸</div>
+                  <div className="w-8 h-8 bg-blue-100 border-2 border-ink flex items-center justify-center text-[12px]">ðŸ“¸</div>
                   <div>
                     <div className="text-[13px] font-bold font-mono">Aster Skin</div>
                     <div className="text-[10px] uppercase font-bold tracking-wider text-text-secondary">Inquiry</div>
@@ -111,7 +111,7 @@ export function HeroSection() {
             {/* Fragment 3: Invoice Paid (Retro Notification) */}
             <div className="absolute bottom-8 left-8 md:left-12 bg-green-400 border-2 border-ink shadow-[6px_6px_0px_0px_rgba(30,26,29,1)] p-4 w-[240px] z-30 -rotate-[4deg] animate-float-fast">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-canvas border-2 border-ink flex items-center justify-center text-[20px] shadow-[2px_2px_0px_0px_rgba(30,26,29,1)]">💰</div>
+                <div className="w-12 h-12 bg-canvas border-2 border-ink flex items-center justify-center text-[20px] shadow-[2px_2px_0px_0px_rgba(30,26,29,1)]">ðŸ’°</div>
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-widest text-ink/70">Invoice #1042</div>
                   <div className="text-[18px] font-bold text-ink font-mono mt-0.5">PAID IN FULL</div>
@@ -129,40 +129,41 @@ export function HeroSection() {
         <div className="animate-marquee whitespace-nowrap flex gap-8 items-center font-mono text-[13px] uppercase tracking-widest font-bold min-w-max">
           {/* First set */}
           <span>NO MORE SPREADSHEETS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE LOST EMAILS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>GET PAID ON TIME</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>OWN YOUR OPERATIONS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE SPREADSHEETS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE LOST EMAILS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>GET PAID ON TIME</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>OWN YOUR OPERATIONS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           {/* Second identical set for seamless loop */}
           <span>NO MORE SPREADSHEETS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE LOST EMAILS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>GET PAID ON TIME</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>OWN YOUR OPERATIONS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE SPREADSHEETS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>NO MORE LOST EMAILS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>GET PAID ON TIME</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
           <span>OWN YOUR OPERATIONS</span>
-          <span className="text-accent">✦</span>
+          <span className="text-accent">âœ¦</span>
         </div>
       </div>
     </section>
   );
 }
+

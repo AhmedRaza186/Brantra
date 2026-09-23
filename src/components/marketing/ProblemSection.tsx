@@ -1,8 +1,8 @@
-import { FileText, Mail, MessageCircle } from "lucide-react";
+﻿import { FileText, Mail, MessageCircle } from "lucide-react";
 
 export function ProblemSection() {
   return (
-    <section className="py-24 md:py-40 px-4 sm:px-6 lg:px-8 overflow-hidden bg-canvas relative border-b-2 border-ink">
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-canvas relative border-b-2 border-ink">
       
       {/* Background Dots */}
       <div 
@@ -12,7 +12,7 @@ export function ProblemSection() {
 
       <div className="max-w-7xl mx-auto flex flex-col items-center text-center relative z-10">
         
-        <h2 className="font-editorial text-[48px] md:text-[80px] leading-[0.95] tracking-tight text-ink max-w-3xl mb-16 relative">
+        <h2 className="font-editorial text-[48px] md:text-[80px] leading-[0.95] tracking-tight text-ink max-w-3xl mb-8 relative">
           <span className="bg-canvas border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] px-2 inline-block -rotate-1 mb-2">
             Your content is organized.
           </span>
@@ -23,7 +23,7 @@ export function ProblemSection() {
         </h2>
 
         {/* Abstract Visual of scattered work */}
-        <div className="relative w-full max-w-4xl h-[400px] flex items-center justify-center mt-12">
+        <div className="relative w-full max-w-4xl h-[400px] flex items-center justify-center mt-8">
           
           {/* Thread Connector - Retro line */}
           <div className="absolute top-1/2 left-0 right-0 h-1 bg-ink -translate-y-1/2 z-0 hidden md:block"></div>
@@ -64,3 +64,4 @@ export function ProblemSection() {
     </section>
   );
 }
+

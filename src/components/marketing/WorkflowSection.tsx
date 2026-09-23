@@ -1,11 +1,11 @@
-import { WORKFLOW_STEPS } from "../../data/marketing";
+﻿import { WORKFLOW_STEPS } from "../../data/marketing";
 
 export function WorkflowSection() {
   return (
-    <section id="how-it-works" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 border-b-2 border-ink bg-[#f4f1ee] relative overflow-hidden">
+    <section id="how-it-works" className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 border-b-2 border-ink bg-[#f4f1ee] relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center md:text-left mb-20 max-w-2xl">
+        <div className="text-center md:text-left mb-12 max-w-2xl">
           <h2 className="font-editorial text-[40px] md:text-[56px] leading-[1.05] tracking-tight text-ink mb-6 relative inline-block">
             <span className="bg-canvas border-2 border-ink shadow-[6px_6px_0px_0px_rgba(30,26,29,1)] px-3 block">
               One clear path through
@@ -47,3 +47,4 @@ export function WorkflowSection() {
     </section>
   );
 }
+

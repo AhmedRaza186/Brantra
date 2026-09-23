@@ -9,7 +9,6 @@ import { HumanCreatorSection } from "../../components/marketing/HumanCreatorSect
 import { PainInsightsSection } from "../../components/marketing/PainInsightsSection";
 import { FinalCTASection } from "../../components/marketing/FinalCTASection";
 import { WhatIsBrantra } from "../../components/marketing/WhatIsBrantra";
-import { TechnicalSpecs } from "../../components/marketing/TechnicalSpecs";
 import { FEATURE_STORIES } from "../../data/marketing";
 
 export default function MarketingRootPage() {
@@ -59,7 +58,6 @@ export default function MarketingRootPage() {
       </div>
       
       <UsageRightsSection />
-      <TechnicalSpecs />
       <HumanCreatorSection />
       <PainInsightsSection />
       <FinalCTASection />

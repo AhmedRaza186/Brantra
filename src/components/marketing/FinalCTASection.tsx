@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export function FinalCTASection() {
   return (
@@ -30,7 +30,7 @@ export function FinalCTASection() {
           href="/signup"
           className="inline-flex h-20 items-center justify-center bg-canvas px-12 text-[20px] md:text-[24px] font-bold font-mono text-ink border-4 border-ink shadow-[8px_8px_0px_0px_rgba(30,26,29,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all focus-visible outline-none uppercase tracking-widest"
         >
-          Request early access
+          Join early access
         </Link>
         
         <div className="mt-8 bg-ink text-white px-4 py-2 font-mono text-[12px] font-bold uppercase tracking-widest border-2 border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
@@ -41,3 +41,4 @@ export function FinalCTASection() {
     </section>
   );
 }
+

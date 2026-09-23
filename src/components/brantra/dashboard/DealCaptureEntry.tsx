@@ -1,11 +1,25 @@
-'use client';
-import { useState } from 'react';
-import { CheckCircle2, Clock, Sparkles, X } from 'lucide-react';
+﻿'use client';
+import { useState, useEffect } from 'react';
+import { CheckCircle2, Clock, X } from 'lucide-react';
 
 export function DealCaptureEntry() {
   const [isFocused, setIsFocused] = useState(false);
   const [content, setContent] = useState('');
   const [isReviewed, setIsReviewed] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => setShowSuccess(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSuccess]);
+
+  const handleSave = () => {
+    setContent('');
+    setIsReviewed(false);
+    setShowSuccess(true);
+  };
 
   return (
     <div 
@@ -17,9 +31,17 @@ export function DealCaptureEntry() {
         }
       }}
     >
-      <div className="mb-4">
-        <h2 className="text-section-heading text-ink">Quick Deal Capture</h2>
-        <p className="text-[12px] text-text-secondary mt-1">Turn a brand conversation into clear deal terms.</p>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h2 className="text-section-heading text-ink">Quick Deal Capture</h2>
+          <p className="text-[12px] text-text-secondary mt-1">Turn a brand conversation into clear deal terms.</p>
+        </div>
+        {showSuccess && (
+          <div className="text-[11px] font-bold text-completed flex items-center gap-1.5 animate-reveal bg-completed/10 px-2 py-1 rounded">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            Draft prepared
+          </div>
+        )}
       </div>
       
       <div className="flex flex-col gap-3 relative mb-6">
@@ -29,7 +51,7 @@ export function DealCaptureEntry() {
           aria-label="Paste deal terms"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          onInput={() => setIsReviewed(false)}
+          onInput={() => {setIsReviewed(false); setShowSuccess(false);}}
         />
         
         <div className={`transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
@@ -40,7 +62,7 @@ export function DealCaptureEntry() {
             disabled={!content.trim()}
             className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-ink px-6 text-[13px] font-medium text-white hover:bg-ink/80 transition-btn focus-visible shadow-sm"
           >
-            <Sparkles className="w-3.5 h-3.5" /> Review Deal
+            Review Deal
           </button>
         </div>
       </div>
@@ -48,14 +70,17 @@ export function DealCaptureEntry() {
       {isReviewed && (
         <div className="mb-6 rounded-xl border border-accent/20 bg-accent/5 p-4 animate-reveal" aria-live="polite">
           <div className="flex items-center justify-between gap-3 mb-3">
-            <p className="text-[12px] font-bold text-ink">Draft terms detected</p>
+            <p className="text-[12px] font-bold text-ink">Message ready for review</p>
             <button type="button" onClick={() => setIsReviewed(false)} className="text-text-secondary hover:text-ink focus-visible" aria-label="Dismiss review"><X className="w-4 h-4" /></button>
           </div>
           <dl className="grid grid-cols-2 gap-3 text-[11px]">
-            <div><dt className="text-text-secondary">Deliverable</dt><dd className="font-semibold text-ink mt-0.5">Sponsored short-form video</dd></div>
-            <div><dt className="text-text-secondary">Status</dt><dd className="font-semibold text-waiting mt-0.5">Needs confirmation</dd></div>
+            <div className="col-span-2 sm:col-span-1"><dt className="text-text-secondary">Message Preview</dt><dd className="font-semibold text-ink mt-0.5 truncate" title={content}>{content || 'No content provided'}</dd></div>
+            <div className="col-span-2 sm:col-span-1"><dt className="text-text-secondary">Status</dt><dd className="font-semibold text-waiting mt-0.5">Ready for review</dd></div>
           </dl>
-          <p className="mt-3 text-[10px] text-text-secondary">Demo extraction only. Confirmed terms will be saved when the backend is connected.</p>
+          <div className="mt-4 flex items-center justify-between border-t border-accent/10 pt-3">
+            <p className="text-[10px] text-text-secondary">Prototype preview — automatic extraction will be connected later.</p>
+            <button type="button" onClick={handleSave} className="bg-accent text-white px-3 py-1.5 text-[11px] font-bold rounded shadow-sm hover:bg-accent-hover transition-colors shrink-0">Prepare Draft</button>
+          </div>
         </div>
       )}
 
@@ -68,7 +93,7 @@ export function DealCaptureEntry() {
               <span className="text-[12px] font-semibold text-ink">Solace Beauty</span>
               <span className="text-[12px] text-text-secondary truncate">— Terms need review</span>
             </div>
-            <button type="button" onClick={() => { setContent('1 Instagram Reel for Solace Beauty, due Friday. Include 90-day usage rights.'); setIsReviewed(true); }} className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
+            <button type="button" onClick={() => { setContent('1 Instagram Reel for Solace Beauty, due Friday. Include 90-day usage rights.'); setIsReviewed(true); setShowSuccess(false); }} className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
           </div>
           <div className="flex items-center gap-2.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-completed shrink-0" />

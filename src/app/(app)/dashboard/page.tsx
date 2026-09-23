@@ -43,17 +43,17 @@ export default function DashboardPage() {
 
         <div className="flex flex-col xl:grid xl:grid-cols-12 gap-8 relative items-start">
           {/* 1. Operational Summary */}
-          <div className="order-1 xl:order-none xl:col-span-8">
+          <div className="order-1 xl:order-none xl:col-span-8 w-full min-w-0">
             <OperationalSummary metrics={operationalMetrics} />
           </div>
 
           {/* 2. Active Production Workspace */}
-          <div className="order-2 xl:order-none xl:col-span-8">
+          <div className="order-2 xl:order-none xl:col-span-8 w-full min-w-0">
             <ActiveProduction data={activeProduction} />
           </div>
 
           {/* 3. Right Schedule Column (Sticky Sidebar) */}
-          <div className="order-3 xl:order-none xl:col-span-4 xl:col-start-9 xl:row-start-1 xl:row-span-5 flex flex-col gap-8 xl:sticky xl:top-0">
+          <div className="order-3 xl:order-none xl:col-span-4 xl:col-start-9 xl:row-start-1 xl:row-span-5 flex flex-col gap-8 xl:sticky xl:top-0 w-full min-w-0">
             <div className="hidden xl:block">
               <CampaignCalendar />
             </div>
@@ -64,17 +64,17 @@ export default function DashboardPage() {
           </div>
 
           {/* 4. Deal Capture (Left on Desktop, First on Mobile lower section) */}
-          <div className="order-4 xl:order-none xl:col-span-4 h-full flex flex-col">
+          <div className="order-4 xl:order-none xl:col-span-4 h-full flex flex-col w-full min-w-0">
             <DealCaptureEntry />
           </div>
 
           {/* 5. Active Campaigns (Right on Desktop, Second on Mobile lower section) */}
-          <div className="order-5 xl:order-none xl:col-span-4 h-full flex flex-col">
+          <div className="order-5 xl:order-none xl:col-span-4 h-full flex flex-col w-full min-w-0">
             <CampaignList campaigns={campaigns} />
           </div>
 
           {/* 6. Analytics */}
-          <div className="order-6 xl:order-none xl:col-span-8">
+          <div className="order-6 xl:order-none xl:col-span-8 w-full min-w-0">
             <AnalyticsDashboard />
           </div>
         </div>

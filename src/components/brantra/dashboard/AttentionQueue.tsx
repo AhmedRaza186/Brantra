@@ -1,4 +1,4 @@
- 'use client';
+﻿'use client';
 
 import { AttentionItem } from '../../../types/dashboard';
 import { useState } from 'react';
@@ -20,22 +20,20 @@ export function AttentionQueue({ items }: { items: AttentionItem[] }) {
           let badgeColor = 'text-text-secondary bg-surface-secondary';
 
           if (item.urgency === 'now') {
-            borderColor = 'border-urgent/30';
+            borderColor = 'border-urgent/50';
             badgeColor = 'text-urgent bg-urgent/10';
           } else if (item.urgency === 'waiting') {
-            borderColor = 'border-waiting/30';
+            borderColor = 'border-waiting/50';
             badgeColor = 'text-waiting bg-waiting/10';
           }
 
-          // Use inline animation delay for the tight 50ms stagger
           const staggerStyle = { animationDelay: `${200 + index * 50}ms` };
-
           const displayUrgency = item.urgency.toUpperCase();
 
           return (
             <div 
               key={item.id} 
-              className={`flex flex-col border ${borderColor} ${bgColor} rounded-2xl p-5 transition-row group hover:-translate-y-0.5 shadow-sm hover:shadow-md animate-reveal`}
+              className={`flex flex-col border ${borderColor} ${bgColor} rounded-2xl p-5 transition-all duration-300 group shadow-sm hover:shadow-md animate-reveal`}
               style={staggerStyle}
             >
               <div className="flex items-start justify-between mb-2">
