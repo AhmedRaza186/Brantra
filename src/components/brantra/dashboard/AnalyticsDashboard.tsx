@@ -1,5 +1,5 @@
 'use client';
-import { useInView } from '../../../hooks/useInView.ts';
+import { useInView } from '../../../hooks/useInView';
 
 export function AnalyticsDashboard() {
   const { ref: chartRef, isInView: chartInView } = useInView();

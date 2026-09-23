@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { BRAND } from '../../../config/brand.ts';
+import { BRAND } from '../../../config/brand';
 
 export function DashboardIntro() {
   const [isVisible, setIsVisible] = useState(false);

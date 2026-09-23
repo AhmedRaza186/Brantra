@@ -1,4 +1,4 @@
-import { AppShell } from '../../components/brantra/shell/AppShell.tsx';
+import { AppShell } from '../../components/brantra/shell/AppShell';
 
 export default function AppLayout({
   children,

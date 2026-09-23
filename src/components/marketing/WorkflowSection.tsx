@@ -1,4 +1,4 @@
-import { WORKFLOW_STEPS } from "../../data/marketing.ts";
+import { WORKFLOW_STEPS } from "../../data/marketing";
 
 export function WorkflowSection() {
   return (

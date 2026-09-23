@@ -1,4 +1,4 @@
-import { AttentionItem } from '../../../types/dashboard.ts';
+import { AttentionItem } from '../../../types/dashboard';
 
 export function AttentionQueue({ items }: { items: AttentionItem[] }) {
   if (!items || items.length === 0) return null;

@@ -1,4 +1,4 @@
-import { Campaign } from '../../../types/dashboard.ts';
+import { Campaign } from '../../../types/dashboard';
 
 export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
   if (!campaigns || campaigns.length === 0) return null;

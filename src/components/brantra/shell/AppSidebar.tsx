@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NAVIGATION_ITEMS } from '../../../config/navigation.ts';
-import { BRAND } from '../../../config/brand.ts';
+import { NAVIGATION_ITEMS } from '../../../config/navigation';
+import { BRAND } from '../../../config/brand';
 import { Settings } from 'lucide-react';
 
 export function AppSidebar() {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BRAND } from "../../config/brand.ts";
+import { BRAND } from "../../config/brand";
 
 export function MarketingFooter() {
   const currentYear = new Date().getFullYear();

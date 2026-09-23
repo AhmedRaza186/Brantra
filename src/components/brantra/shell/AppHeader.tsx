@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Search, Bell, Plus } from 'lucide-react';
-import { BRAND } from '../../../config/brand.ts';
+import { BRAND } from '../../../config/brand';
 
 export function AppHeader() {
   return (

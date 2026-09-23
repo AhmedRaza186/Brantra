@@ -13,9 +13,9 @@ export const metadata = {
     "Capture brand deals, manage deliverables and revisions, track approvals, usage rights and payments—all in one focused creator workspace.",
 };
 
-import { MarketingHeader } from "../../components/marketing/MarketingHeader.tsx";
-import { MarketingFooter } from "../../components/marketing/MarketingFooter.tsx";
-import { SmoothScroll } from "../../components/marketing/SmoothScroll.tsx";
+import { MarketingHeader } from "../../components/marketing/MarketingHeader";
+import { MarketingFooter } from "../../components/marketing/MarketingFooter";
+import { SmoothScroll } from "../../components/marketing/SmoothScroll";
 
 export default function MarketingLayout({
   children,

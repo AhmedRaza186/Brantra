@@ -1,7 +1,7 @@
 'use client';
-import { ActiveProductionData } from '../../../types/dashboard.ts';
+import { ActiveProductionData } from '../../../types/dashboard';
 import { Upload, Eye, Clock, MessageCircle } from 'lucide-react';
-import { useInView } from '../../../hooks/useInView.ts';
+import { useInView } from '../../../hooks/useInView';
 
 export function ActiveProduction({ data }: { data: ActiveProductionData }) {
   const workflowStages = ['Brief', 'Create', 'Review', 'Publish', 'Paid'];

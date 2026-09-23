@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { BRAND } from "../../config/brand.ts";
+import { BRAND } from "../../config/brand";
 
 export function MarketingHeader() {
   const [isScrolled, setIsScrolled] = useState(false);

@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NAVIGATION_ITEMS } from '../../../config/navigation.ts';
+import { NAVIGATION_ITEMS } from '../../../config/navigation';
 
 export function MobileNavigation() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);

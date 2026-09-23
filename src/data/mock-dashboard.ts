@@ -1,4 +1,4 @@
-import { Campaign, AttentionItem, PaymentRecord, OperationalMetrics, ActiveProductionData } from '../types/dashboard.ts';
+import { Campaign, AttentionItem, PaymentRecord, OperationalMetrics, ActiveProductionData } from '../types/dashboard';
 
 export const operationalMetrics: OperationalMetrics = {
   activeDeals: 6,

@@ -1,14 +1,14 @@
-import { HeroSection } from "../../components/marketing/HeroSection.tsx";
-import { TrustStrip } from "../../components/marketing/TrustStrip.tsx";
-import { ProblemSection } from "../../components/marketing/ProblemSection.tsx";
-import { VideoTourSection } from "../../components/marketing/VideoTourSection.tsx";
-import { WorkflowSection } from "../../components/marketing/WorkflowSection.tsx";
-import { FeatureStory } from "../../components/marketing/FeatureStory.tsx";
-import { UsageRightsSection } from "../../components/marketing/UsageRightsSection.tsx";
-import { HumanCreatorSection } from "../../components/marketing/HumanCreatorSection.tsx";
-import { PainInsightsSection } from "../../components/marketing/PainInsightsSection.tsx";
-import { FinalCTASection } from "../../components/marketing/FinalCTASection.tsx";
-import { FEATURE_STORIES } from "../../data/marketing.ts";
+import { HeroSection } from "../../components/marketing/HeroSection";
+import { TrustStrip } from "../../components/marketing/TrustStrip";
+import { ProblemSection } from "../../components/marketing/ProblemSection";
+import { VideoTourSection } from "../../components/marketing/VideoTourSection";
+import { WorkflowSection } from "../../components/marketing/WorkflowSection";
+import { FeatureStory } from "../../components/marketing/FeatureStory";
+import { UsageRightsSection } from "../../components/marketing/UsageRightsSection";
+import { HumanCreatorSection } from "../../components/marketing/HumanCreatorSection";
+import { PainInsightsSection } from "../../components/marketing/PainInsightsSection";
+import { FinalCTASection } from "../../components/marketing/FinalCTASection";
+import { FEATURE_STORIES } from "../../data/marketing";
 
 export default function MarketingRootPage() {
   return (
