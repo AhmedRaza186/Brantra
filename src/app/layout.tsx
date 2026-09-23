@@ -9,8 +9,21 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://brantra.vercel.app'),
   title: "Brantra — From inquiry to paid",
   description: "The deal-to-paid workspace for self-managed creators and their brand partnerships.",
+  authors: [{ name: 'Brantra Team' }],
+  publisher: 'Brantra',
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Brantra — From inquiry to paid',
+    description: 'The deal-to-paid workspace for self-managed creators and their brand partnerships.',
+    url: '/',
+    siteName: 'Brantra',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -30,3 +43,4 @@ export default function RootLayout({
     </html>
   );
 }
+

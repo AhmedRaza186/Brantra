@@ -8,6 +8,8 @@ import { UsageRightsSection } from "../../components/marketing/UsageRightsSectio
 import { HumanCreatorSection } from "../../components/marketing/HumanCreatorSection";
 import { PainInsightsSection } from "../../components/marketing/PainInsightsSection";
 import { FinalCTASection } from "../../components/marketing/FinalCTASection";
+import { WhatIsBrantra } from "../../components/marketing/WhatIsBrantra";
+import { TechnicalSpecs } from "../../components/marketing/TechnicalSpecs";
 import { FEATURE_STORIES } from "../../data/marketing";
 
 export default function MarketingRootPage() {
@@ -15,6 +17,29 @@ export default function MarketingRootPage() {
     <>
       <HeroSection />
       <TrustStrip />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Brantra",
+            "operatingSystem": "Web browser",
+            "applicationCategory": "BusinessApplication",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "brand": {
+              "@type": "Brand",
+              "name": "Brantra"
+            },
+            "description": "Brantra is a brand deal operations platform that helps independent creators manage brand partnerships from initial inquiry through final payment. It provides a structured workspace to track deliverables, automate follow-ups, and ensure you get paid on time."
+          })
+        }}
+      />
+      <WhatIsBrantra />
       <ProblemSection />
       <VideoTourSection />
       <WorkflowSection />
@@ -34,6 +59,7 @@ export default function MarketingRootPage() {
       </div>
       
       <UsageRightsSection />
+      <TechnicalSpecs />
       <HumanCreatorSection />
       <PainInsightsSection />
       <FinalCTASection />
