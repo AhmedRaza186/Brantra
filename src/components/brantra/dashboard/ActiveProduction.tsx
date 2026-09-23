@@ -1,14 +1,23 @@
 'use client';
 import { ActiveProductionData } from '../../../types/dashboard';
-import { Upload, Eye, Clock, MessageCircle } from 'lucide-react';
+import { Upload, Eye, Clock, MessageCircle, Check, X } from 'lucide-react';
 import { useInView } from '../../../hooks/useInView';
+import { ChangeEvent, useRef, useState } from 'react';
 
 export function ActiveProduction({ data }: { data: ActiveProductionData }) {
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const workflowStages = ['Brief', 'Create', 'Review', 'Publish', 'Paid'];
   const currentStageIndex = workflowStages.indexOf(data.currentStage);
   
   // Hook for triggering workflow animation once scrolled into view
   const { ref: workflowRef, isInView: workflowInView } = useInView();
+
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) setUploadedFile(file.name);
+  };
 
   return (
     <div className="relative mb-12 animate-reveal stagger-2">
@@ -20,7 +29,7 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
           
           {/* Left: 9:16 Video Preview Focal Point */}
           <div className="w-full md:w-[260px] shrink-0 group">
-            <button type="button" className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible">
+            <button type="button" onClick={() => setFeedbackOpen(true)} className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible" aria-label="Open feedback for the Aster Skin draft">
               
               <div className="absolute inset-0 bg-gradient-to-br from-surface-secondary to-canvas opacity-70"></div>
               
@@ -120,17 +129,34 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button type="button" className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
-                <Upload className="h-4 w-4" /> Upload Revised Cut
+              <input ref={fileInputRef} type="file" accept="video/*" onChange={handleUpload} className="sr-only" />
+              <button type="button" onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 px-4 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
+                {uploadedFile ? <Check className="h-4 w-4" /> : <Upload className="h-4 w-4" />} {uploadedFile ? 'Revised Cut Ready' : 'Upload Revised Cut'}
               </button>
-              <button type="button" className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
+              <button type="button" onClick={() => setFeedbackOpen(true)} className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
                 <Eye className="h-4 w-4" /> View Feedback
               </button>
             </div>
+            {uploadedFile && <p className="mt-2 text-[11px] text-completed" aria-live="polite">{uploadedFile} selected. It will upload when storage is connected.</p>}
 
           </div>
         </div>
       </div>
+
+      {feedbackOpen && (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+          <button type="button" className="absolute inset-0 bg-ink/50 backdrop-blur-sm cursor-default" onClick={() => setFeedbackOpen(false)} aria-label="Close feedback" />
+          <div className="relative w-full max-w-lg rounded-2xl bg-surface p-6 shadow-2xl animate-reveal">
+            <div className="flex items-start justify-between gap-4">
+              <div><p className="text-[11px] font-bold uppercase tracking-wider text-accent">Aster Skin · 00:09</p><h3 id="feedback-title" className="text-[20px] font-bold text-ink mt-1">Revision feedback</h3></div>
+              <button type="button" onClick={() => setFeedbackOpen(false)} className="p-2 rounded-full hover:bg-canvas text-text-secondary focus-visible" aria-label="Close"><X className="w-4 h-4" /></button>
+            </div>
+            <blockquote className="mt-5 rounded-xl bg-surface-secondary/50 border-l-2 border-accent p-4 text-[14px] leading-relaxed text-ink">“{data.brandFeedback}”</blockquote>
+            <div className="mt-5 grid grid-cols-2 gap-3 text-[12px]"><div className="rounded-lg bg-canvas p-3"><span className="text-text-secondary">Revision</span><strong className="block mt-1 text-ink">{data.revision}</strong></div><div className="rounded-lg bg-canvas p-3"><span className="text-text-secondary">Due</span><strong className="block mt-1 text-urgent">{data.deadline}</strong></div></div>
+            <button type="button" onClick={() => { setFeedbackOpen(false); fileInputRef.current?.click(); }} className="mt-6 w-full h-11 rounded-lg bg-accent text-white text-[13px] font-bold hover:bg-accent-hover focus-visible">Choose revised video</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

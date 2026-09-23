@@ -10,7 +10,7 @@ export function HumanCreatorSection() {
                <span className="text-[10px] font-mono font-bold text-white tracking-widest uppercase">CREATOR_IMG.JPG</span>
                <div className="w-4 h-4 bg-white border-2 border-ink"></div>
             </div>
-            <div className="w-full h-full pt-8 flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+            <div className="w-full h-full pt-8 flex items-center justify-center [background-image:radial-gradient(rgba(30,26,29,0.12)_1px,transparent_1px)] [background-size:12px_12px]">
               <div className="text-center p-8 bg-white border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] -rotate-3">
                 <div className="text-[12px] font-bold font-mono tracking-widest uppercase text-ink mb-2">
                   Creator Portrait

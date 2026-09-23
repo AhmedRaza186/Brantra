@@ -1,6 +1,10 @@
+ 'use client';
+
 import { Campaign } from '../../../types/dashboard';
+import { useState } from 'react';
 
 export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
+  const [showAll, setShowAll] = useState(false);
   if (!campaigns || campaigns.length === 0) return null;
 
   const getDisplayStage = (stage: string) => {
@@ -17,13 +21,13 @@ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
         <div>
           <h2 className="text-section-heading text-ink">Active Campaigns</h2>
         </div>
-        <button type="button" className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible">
-          View all
+        <button type="button" onClick={() => setShowAll((value) => !value)} className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible" aria-expanded={showAll}>
+          {showAll ? 'Show less' : `View all (${campaigns.length})`}
         </button>
       </div>
 
       <div className="flex flex-col gap-5 flex-1">
-        {campaigns.map((campaign, i) => {
+        {campaigns.slice(0, showAll ? campaigns.length : 2).map((campaign, i) => {
           // Calculate progress line based on Stage
           // Stages: drafting, review, approval-pending, in-production
           let progress = 20;
@@ -53,7 +57,7 @@ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
           return (
             <div key={campaign.id} className="flex flex-col group">
               <div className="flex items-start justify-between mb-1.5">
-                <span className="text-[14px] font-semibold text-ink group-hover:text-accent transition-colors cursor-pointer">{campaign.brandName}</span>
+                <span className="text-[14px] font-semibold text-ink group-hover:text-accent transition-colors">{campaign.brandName}</span>
                 <span className="text-[12px] font-medium text-ink">{campaign.deadline}</span>
               </div>
               <div className="text-[13px] text-text-secondary mb-3 flex items-center justify-between">

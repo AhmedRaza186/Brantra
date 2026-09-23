@@ -17,7 +17,7 @@ export default function AuthLayout({
     <div className="min-h-screen flex flex-col md:flex-row bg-canvas">
       
       {/* Left side: Form */}
-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:w-[600px] xl:w-[700px] bg-white border-r-4 border-ink relative z-10">
+      <main id="main-content" className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:w-[600px] xl:w-[700px] bg-white border-r-4 border-ink relative z-10">
         <div className="absolute top-8 left-8">
           <Link href="/" className="inline-block focus-visible rounded-none outline-none focus-visible:ring-2 focus-visible:ring-ink">
             <div className="bg-canvas border-2 border-ink shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] px-3 py-2 hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[0px_0px_0px_0px_rgba(30,26,29,1)] transition-all">
@@ -35,7 +35,7 @@ export default function AuthLayout({
         <div className="w-full max-w-md mx-auto pt-24 pb-12">
           {children}
         </div>
-      </div>
+      </main>
 
       {/* Right side: Brutalist Graphic (hidden on mobile) */}
       <div className="hidden lg:flex flex-1 relative overflow-hidden bg-accent flex-col justify-between p-12">

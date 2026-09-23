@@ -1,6 +1,10 @@
+ 'use client';
+
 import { AttentionItem } from '../../../types/dashboard';
+import { useState } from 'react';
 
 export function AttentionQueue({ items }: { items: AttentionItem[] }) {
+  const [sentIds, setSentIds] = useState<string[]>([]);
   if (!items || items.length === 0) return null;
 
   return (
@@ -48,8 +52,8 @@ export function AttentionQueue({ items }: { items: AttentionItem[] }) {
               
               {item.actionAffordance && (
                 <div className="mt-2 pt-2 border-t border-border/50">
-                  <button type="button" className="text-[12px] font-semibold text-accent hover:text-accent-hover transition-colors focus-visible">
-                    {item.actionAffordance} &rarr;
+                  <button type="button" onClick={() => setSentIds((ids) => [...ids, item.id])} disabled={sentIds.includes(item.id)} className="text-[12px] font-semibold text-accent hover:text-accent-hover disabled:text-completed transition-colors focus-visible">
+                    {sentIds.includes(item.id) ? 'Follow-up queued ✓' : `${item.actionAffordance} →`}
                   </button>
                 </div>
               )}

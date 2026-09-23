@@ -15,7 +15,7 @@ export function PainInsightsSection() {
   ];
 
   return (
-    <section className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-canvas border-b-2 border-ink">
+    <section id="why-brantra" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-canvas border-b-2 border-ink">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20 max-w-3xl mx-auto">
           <div className="bg-ink text-white font-mono text-[12px] font-bold tracking-widest uppercase border-2 border-ink px-4 py-1.5 shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] inline-block mb-8 rotate-1">

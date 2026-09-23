@@ -91,7 +91,7 @@ export function HeroSection() {
                   <div className="w-3 h-3 border-2 border-white bg-white"></div>
                 </div>
               </div>
-              <div className="p-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-surface">
+              <div className="p-4 bg-surface [background-image:radial-gradient(rgba(30,26,29,0.1)_1px,transparent_1px)] [background-size:12px_12px]">
                 <div className="text-[14px] font-bold mb-3 font-mono border-b-2 border-ink pb-2">Deliverables</div>
                 <div className="flex justify-between items-center text-[12px] py-1.5 font-medium">
                   <span>1x Instagram Reel</span>

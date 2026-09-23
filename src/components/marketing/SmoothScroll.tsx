@@ -25,16 +25,17 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     lenis.on("scroll", ScrollTrigger.update);
 
     // Add Lenis to GSAP's ticker
-    gsap.ticker.add((time) => {
+    const update = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(update);
     
     // Disable GSAP's lag smoothing to avoid conflicts with Lenis
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       // Cleanup
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      gsap.ticker.remove(update);
       lenis.destroy();
     };
   }, []);

@@ -26,7 +26,7 @@ export default function MarketingLayout({
     <SmoothScroll>
       <div className={`${instrumentSerif.variable} flex flex-col min-h-screen relative overflow-x-hidden bg-canvas`}>
         <MarketingHeader />
-        <main className="flex-1 w-full pt-[80px]">
+        <main id="main-content" className="flex-1 w-full pt-[80px]">
           {children}
         </main>
         <MarketingFooter />

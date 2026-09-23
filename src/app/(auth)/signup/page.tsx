@@ -23,11 +23,14 @@ export default function SignupPage() {
       <form className="space-y-5" action="/dashboard">
         
         <div className="space-y-2">
-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+          <label htmlFor="signup-name" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
             Full Name
           </label>
           <input
             type="text"
+            id="signup-name"
+            name="name"
+            autoComplete="name"
             required
             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
             placeholder="Creator Name"
@@ -35,11 +38,14 @@ export default function SignupPage() {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+          <label htmlFor="signup-email" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
             Email Address
           </label>
           <input
             type="email"
+            id="signup-email"
+            name="email"
+            autoComplete="email"
             required
             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
             placeholder="you@example.com"
@@ -47,11 +53,15 @@ export default function SignupPage() {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+          <label htmlFor="signup-password" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
             Password
           </label>
           <input
             type="password"
+            id="signup-password"
+            name="password"
+            autoComplete="new-password"
+            minLength={8}
             required
             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
             placeholder="••••••••"

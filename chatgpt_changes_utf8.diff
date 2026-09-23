@@ -1,0 +1,1077 @@
+﻿diff --git a/.github/workflows/deno.yml b/.github/workflows/deno.yml
+index 4c555fd..0235992 100644
+--- a/.github/workflows/deno.yml
++++ b/.github/workflows/deno.yml
+@@ -37,3 +37,4 @@ jobs:
+ 
+       - name: Run linter
+         run: deno lint
++          
+\ No newline at end of file
+diff --git a/README.md b/README.md
+index e215bc4..eb622a4 100644
+--- a/README.md
++++ b/README.md
+@@ -1,36 +1,31 @@
+-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
++# Brantra
+ 
+-## Getting Started
++Brantra is a frontend product prototype for independent creators managing brand partnerships from inquiry through payment. It combines a public marketing site, authentication flows, and an interactive operations dashboard.
+ 
+-First, run the development server:
++## Run locally
+ 
+ ```bash
++npm install
+ npm run dev
+-# or
+-yarn dev
+-# or
+-pnpm dev
+-# or
+-bun dev
+ ```
+ 
+-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
++Open [http://localhost:3000](http://localhost:3000). The dashboard is available at `/dashboard`; all data and successful actions are currently simulated in the browser.
+ 
+-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
++## Quality checks
+ 
+-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-
+-## Learn More
+-
+-To learn more about Next.js, take a look at the following resources:
+-
+-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
++```bash
++npm run lint
++npm run build
++```
+ 
+-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
++## Stack
+ 
+-## Deploy on Vercel
++- Next.js 16 App Router
++- React 19
++- Tailwind CSS 4
++- GSAP and Lenis for the marketing motion system
++- Lucide icons
+ 
+-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
++## Current scope
+ 
+-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
++The frontend covers responsive marketing, sign-in and early-access forms, workspace search, notifications, deal capture, campaign progress, feedback review, and revised-cut selection. Authentication, persistence, file storage, email delivery, invoicing, and payment processing are intentionally left for the backend phase.
+diff --git a/src/app/(auth)/layout.tsx b/src/app/(auth)/layout.tsx
+index 36e02d7..40e6c7e 100644
+--- a/src/app/(auth)/layout.tsx
++++ b/src/app/(auth)/layout.tsx
+@@ -17,7 +17,7 @@ export default function AuthLayout({
+     <div className="min-h-screen flex flex-col md:flex-row bg-canvas">
+       
+       {/* Left side: Form */}
+-      <div className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:w-[600px] xl:w-[700px] bg-white border-r-4 border-ink relative z-10">
++      <main id="main-content" className="flex-1 flex flex-col justify-center px-4 sm:px-6 lg:flex-none lg:w-[600px] xl:w-[700px] bg-white border-r-4 border-ink relative z-10">
+         <div className="absolute top-8 left-8">
+           <Link href="/" className="inline-block focus-visible rounded-none outline-none focus-visible:ring-2 focus-visible:ring-ink">
+             <div className="bg-canvas border-2 border-ink shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] px-3 py-2 hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[0px_0px_0px_0px_rgba(30,26,29,1)] transition-all">
+@@ -35,7 +35,7 @@ export default function AuthLayout({
+         <div className="w-full max-w-md mx-auto pt-24 pb-12">
+           {children}
+         </div>
+-      </div>
++      </main>
+ 
+       {/* Right side: Brutalist Graphic (hidden on mobile) */}
+       <div className="hidden lg:flex flex-1 relative overflow-hidden bg-accent flex-col justify-between p-12">
+diff --git a/src/app/(auth)/login/page.tsx b/src/app/(auth)/login/page.tsx
+index 39fa563..607453c 100644
+--- a/src/app/(auth)/login/page.tsx
++++ b/src/app/(auth)/login/page.tsx
+@@ -20,11 +20,14 @@ export default function LoginPage() {
+       <form className="space-y-6" action="/dashboard">
+         
+         <div className="space-y-2">
+-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
++          <label htmlFor="login-email" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+             Email Address
+           </label>
+           <input
+             type="email"
++            id="login-email"
++            name="email"
++            autoComplete="email"
+             required
+             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
+             placeholder="you@example.com"
+@@ -33,15 +36,18 @@ export default function LoginPage() {
+ 
+         <div className="space-y-2">
+           <div className="flex justify-between items-center">
+-            <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
++            <label htmlFor="login-password" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+               Password
+             </label>
+-            <Link href="#" className="text-[12px] font-bold font-mono text-ink uppercase tracking-widest underline underline-offset-4 hover:text-accent">
++            <Link href="/forgot-password" className="text-[12px] font-bold font-mono text-ink uppercase tracking-widest underline underline-offset-4 hover:text-accent">
+               Forgot?
+             </Link>
+           </div>
+           <input
+             type="password"
++            id="login-password"
++            name="password"
++            autoComplete="current-password"
+             required
+             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
+             placeholder="ΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇó"
+diff --git a/src/app/(auth)/signup/page.tsx b/src/app/(auth)/signup/page.tsx
+index f1211d4..64d3d91 100644
+--- a/src/app/(auth)/signup/page.tsx
++++ b/src/app/(auth)/signup/page.tsx
+@@ -23,11 +23,14 @@ export default function SignupPage() {
+       <form className="space-y-5" action="/dashboard">
+         
+         <div className="space-y-2">
+-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
++          <label htmlFor="signup-name" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+             Full Name
+           </label>
+           <input
+             type="text"
++            id="signup-name"
++            name="name"
++            autoComplete="name"
+             required
+             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
+             placeholder="Creator Name"
+@@ -35,11 +38,14 @@ export default function SignupPage() {
+         </div>
+ 
+         <div className="space-y-2">
+-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
++          <label htmlFor="signup-email" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+             Email Address
+           </label>
+           <input
+             type="email"
++            id="signup-email"
++            name="email"
++            autoComplete="email"
+             required
+             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
+             placeholder="you@example.com"
+@@ -47,11 +53,15 @@ export default function SignupPage() {
+         </div>
+ 
+         <div className="space-y-2">
+-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
++          <label htmlFor="signup-password" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+             Password
+           </label>
+           <input
+             type="password"
++            id="signup-password"
++            name="password"
++            autoComplete="new-password"
++            minLength={8}
+             required
+             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
+             placeholder="ΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇóΓÇó"
+diff --git a/src/app/(marketing)/layout.tsx b/src/app/(marketing)/layout.tsx
+index 506a961..812fd21 100644
+--- a/src/app/(marketing)/layout.tsx
++++ b/src/app/(marketing)/layout.tsx
+@@ -26,7 +26,7 @@ export default function MarketingLayout({
+     <SmoothScroll>
+       <div className={`${instrumentSerif.variable} flex flex-col min-h-screen relative overflow-x-hidden bg-canvas`}>
+         <MarketingHeader />
+-        <main className="flex-1 w-full pt-[80px]">
++        <main id="main-content" className="flex-1 w-full pt-[80px]">
+           {children}
+         </main>
+         <MarketingFooter />
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 2c5aa1e..aa06181 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -55,6 +55,31 @@ body {
+   -moz-osx-font-smoothing: grayscale;
+ }
+ 
++html {
++  scroll-padding-top: 96px;
++}
++
++::selection {
++  background: var(--accent);
++  color: #fff;
++}
++
++.skip-link {
++  position: fixed;
++  left: 1rem;
++  top: 1rem;
++  z-index: 200;
++  transform: translateY(-160%);
++  background: var(--ink);
++  color: #fff;
++  padding: 0.75rem 1rem;
++  font-weight: 700;
++}
++
++.skip-link:focus {
++  transform: translateY(0);
++}
++
+ /* Premium Card Shadows */
+ .shadow-premium {
+   box-shadow: 3px 3px 0px 0px rgba(10, 10, 10, 0.15);
+@@ -184,6 +209,11 @@ body {
+   outline-offset: 2px;
+ }
+ 
++button:disabled,
++[aria-disabled="true"] {
++  cursor: not-allowed;
++}
++
+ /* Smooth textarea expansion */
+ .textarea-expandable {
+   min-height: 40px;
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 7ca24c3..db83f0b 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -24,6 +24,7 @@ export default function RootLayout({
+       className={`${instrumentSans.variable} scroll-smooth`}
+     >
+       <body className="min-h-screen flex flex-col font-sans bg-canvas text-ink">
++        <a href="#main-content" className="skip-link">Skip to content</a>
+         {children}
+       </body>
+     </html>
+diff --git a/src/components/brantra/dashboard/ActiveProduction.tsx b/src/components/brantra/dashboard/ActiveProduction.tsx
+index be95209..d39731d 100644
+--- a/src/components/brantra/dashboard/ActiveProduction.tsx
++++ b/src/components/brantra/dashboard/ActiveProduction.tsx
+@@ -1,15 +1,24 @@
+ 'use client';
+ import { ActiveProductionData } from '../../../types/dashboard';
+-import { Upload, Eye, Clock, MessageCircle } from 'lucide-react';
++import { Upload, Eye, Clock, MessageCircle, Check, X } from 'lucide-react';
+ import { useInView } from '../../../hooks/useInView';
++import { ChangeEvent, useRef, useState } from 'react';
+ 
+ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
++  const [feedbackOpen, setFeedbackOpen] = useState(false);
++  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
++  const fileInputRef = useRef<HTMLInputElement>(null);
+   const workflowStages = ['Brief', 'Create', 'Review', 'Publish', 'Paid'];
+   const currentStageIndex = workflowStages.indexOf(data.currentStage);
+   
+   // Hook for triggering workflow animation once scrolled into view
+   const { ref: workflowRef, isInView: workflowInView } = useInView();
+ 
++  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
++    const file = event.target.files?.[0];
++    if (file) setUploadedFile(file.name);
++  };
++
+   return (
+     <div className="relative mb-12 animate-reveal stagger-2">
+       {/* Subtle Static Radial Blush restricted to this component's background */}
+@@ -20,7 +29,7 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
+           
+           {/* Left: 9:16 Video Preview Focal Point */}
+           <div className="w-full md:w-[260px] shrink-0 group">
+-            <button type="button" className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible">
++            <button type="button" onClick={() => setFeedbackOpen(true)} className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible" aria-label="Open feedback for the Aster Skin draft">
+               
+               <div className="absolute inset-0 bg-gradient-to-br from-surface-secondary to-canvas opacity-70"></div>
+               
+@@ -120,17 +129,34 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
+ 
+             {/* Actions */}
+             <div className="flex flex-col sm:flex-row gap-3">
+-              <button type="button" className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
+-                <Upload className="h-4 w-4" /> Upload Revised Cut
++              <input ref={fileInputRef} type="file" accept="video/*" onChange={handleUpload} className="sr-only" />
++              <button type="button" onClick={() => fileInputRef.current?.click()} className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 px-4 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
++                {uploadedFile ? <Check className="h-4 w-4" /> : <Upload className="h-4 w-4" />} {uploadedFile ? 'Revised Cut Ready' : 'Upload Revised Cut'}
+               </button>
+-              <button type="button" className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
++              <button type="button" onClick={() => setFeedbackOpen(true)} className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
+                 <Eye className="h-4 w-4" /> View Feedback
+               </button>
+             </div>
++            {uploadedFile && <p className="mt-2 text-[11px] text-completed" aria-live="polite">{uploadedFile} selected. It will upload when storage is connected.</p>}
+ 
+           </div>
+         </div>
+       </div>
++
++      {feedbackOpen && (
++        <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
++          <button type="button" className="absolute inset-0 bg-ink/50 backdrop-blur-sm cursor-default" onClick={() => setFeedbackOpen(false)} aria-label="Close feedback" />
++          <div className="relative w-full max-w-lg rounded-2xl bg-surface p-6 shadow-2xl animate-reveal">
++            <div className="flex items-start justify-between gap-4">
++              <div><p className="text-[11px] font-bold uppercase tracking-wider text-accent">Aster Skin ┬╖ 00:09</p><h3 id="feedback-title" className="text-[20px] font-bold text-ink mt-1">Revision feedback</h3></div>
++              <button type="button" onClick={() => setFeedbackOpen(false)} className="p-2 rounded-full hover:bg-canvas text-text-secondary focus-visible" aria-label="Close"><X className="w-4 h-4" /></button>
++            </div>
++            <blockquote className="mt-5 rounded-xl bg-surface-secondary/50 border-l-2 border-accent p-4 text-[14px] leading-relaxed text-ink">ΓÇ£{data.brandFeedback}ΓÇ¥</blockquote>
++            <div className="mt-5 grid grid-cols-2 gap-3 text-[12px]"><div className="rounded-lg bg-canvas p-3"><span className="text-text-secondary">Revision</span><strong className="block mt-1 text-ink">{data.revision}</strong></div><div className="rounded-lg bg-canvas p-3"><span className="text-text-secondary">Due</span><strong className="block mt-1 text-urgent">{data.deadline}</strong></div></div>
++            <button type="button" onClick={() => { setFeedbackOpen(false); fileInputRef.current?.click(); }} className="mt-6 w-full h-11 rounded-lg bg-accent text-white text-[13px] font-bold hover:bg-accent-hover focus-visible">Choose revised video</button>
++          </div>
++        </div>
++      )}
+     </div>
+   );
+ }
+diff --git a/src/components/brantra/dashboard/AttentionQueue.tsx b/src/components/brantra/dashboard/AttentionQueue.tsx
+index 27f3e19..5eb00ae 100644
+--- a/src/components/brantra/dashboard/AttentionQueue.tsx
++++ b/src/components/brantra/dashboard/AttentionQueue.tsx
+@@ -1,6 +1,10 @@
++ 'use client';
++
+ import { AttentionItem } from '../../../types/dashboard';
++import { useState } from 'react';
+ 
+ export function AttentionQueue({ items }: { items: AttentionItem[] }) {
++  const [sentIds, setSentIds] = useState<string[]>([]);
+   if (!items || items.length === 0) return null;
+ 
+   return (
+@@ -48,8 +52,8 @@ export function AttentionQueue({ items }: { items: AttentionItem[] }) {
+               
+               {item.actionAffordance && (
+                 <div className="mt-2 pt-2 border-t border-border/50">
+-                  <button type="button" className="text-[12px] font-semibold text-accent hover:text-accent-hover transition-colors focus-visible">
+-                    {item.actionAffordance} &rarr;
++                  <button type="button" onClick={() => setSentIds((ids) => [...ids, item.id])} disabled={sentIds.includes(item.id)} className="text-[12px] font-semibold text-accent hover:text-accent-hover disabled:text-completed transition-colors focus-visible">
++                    {sentIds.includes(item.id) ? 'Follow-up queued Γ£ô' : `${item.actionAffordance} ΓåÆ`}
+                   </button>
+                 </div>
+               )}
+diff --git a/src/components/brantra/dashboard/CampaignList.tsx b/src/components/brantra/dashboard/CampaignList.tsx
+index 20623bc..66580fa 100644
+--- a/src/components/brantra/dashboard/CampaignList.tsx
++++ b/src/components/brantra/dashboard/CampaignList.tsx
+@@ -1,6 +1,10 @@
++ 'use client';
++
+ import { Campaign } from '../../../types/dashboard';
++import { useState } from 'react';
+ 
+ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
++  const [showAll, setShowAll] = useState(false);
+   if (!campaigns || campaigns.length === 0) return null;
+ 
+   const getDisplayStage = (stage: string) => {
+@@ -17,13 +21,13 @@ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
+         <div>
+           <h2 className="text-section-heading text-ink">Active Campaigns</h2>
+         </div>
+-        <button type="button" className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible">
+-          View all
++        <button type="button" onClick={() => setShowAll((value) => !value)} className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible" aria-expanded={showAll}>
++          {showAll ? 'Show less' : `View all (${campaigns.length})`}
+         </button>
+       </div>
+ 
+       <div className="flex flex-col gap-5 flex-1">
+-        {campaigns.map((campaign, i) => {
++        {campaigns.slice(0, showAll ? campaigns.length : 2).map((campaign, i) => {
+           // Calculate progress line based on Stage
+           // Stages: drafting, review, approval-pending, in-production
+           let progress = 20;
+@@ -53,7 +57,7 @@ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
+           return (
+             <div key={campaign.id} className="flex flex-col group">
+               <div className="flex items-start justify-between mb-1.5">
+-                <span className="text-[14px] font-semibold text-ink group-hover:text-accent transition-colors cursor-pointer">{campaign.brandName}</span>
++                <span className="text-[14px] font-semibold text-ink group-hover:text-accent transition-colors">{campaign.brandName}</span>
+                 <span className="text-[12px] font-medium text-ink">{campaign.deadline}</span>
+               </div>
+               <div className="text-[13px] text-text-secondary mb-3 flex items-center justify-between">
+diff --git a/src/components/brantra/dashboard/DashboardIntro.tsx b/src/components/brantra/dashboard/DashboardIntro.tsx
+index 6c5f92e..eb1bd13 100644
+--- a/src/components/brantra/dashboard/DashboardIntro.tsx
++++ b/src/components/brantra/dashboard/DashboardIntro.tsx
+@@ -44,7 +44,7 @@ export function DashboardIntro() {
+   }, []);
+ 
+   // 2. beginExit: Starts the visual fade
+-  const beginExit = useCallback((_reason?: string) => {
++  const beginExit = useCallback(() => {
+     if (exitStarted.current || cleanupDone.current) return;
+     exitStarted.current = true;
+     setIsFadingOut(true);
+@@ -59,7 +59,9 @@ export function DashboardIntro() {
+     // We defer the start to avoid synchronous setState inside effect warning
+     const initTimer = setTimeout(() => {
+       let shouldPlay = false;
+-      const forceReplay = typeof window !== 'undefined' && new URLSearchParams(globalThis.location.search).get('intro') === '1';
++      const introMode = typeof window !== 'undefined' ? new URLSearchParams(globalThis.location.search).get('intro') : null;
++      const forceReplay = introMode === '1';
++      const skipReplay = introMode === '0';
+       
+       try {
+         const hasSeen = sessionStorage.getItem(BRAND.introSessionKey);
+@@ -70,6 +72,8 @@ export function DashboardIntro() {
+         shouldPlay = true;
+       }
+ 
++      if (skipReplay) shouldPlay = false;
++
+       // Check reduced motion (unless explicitly forced)
+       const prefersReducedMotion = typeof window !== 'undefined' && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
+       if (prefersReducedMotion && !forceReplay) {
+@@ -119,11 +123,11 @@ export function DashboardIntro() {
+         const duration = video.duration || 4.083;
+         const effectiveDuration = duration / 1.4;
+         safetyTimer.current = setTimeout(() => {
+-          beginExit('safety timeout');
++          beginExit();
+         }, (effectiveDuration + 1.5) * 1000);
+-      }).catch((e) => {
++      }).catch(() => {
+         // Autoplay rejected or failed
+-        beginExit('play rejected: ' + e?.message);
++        beginExit();
+       });
+     };
+ 
+@@ -138,7 +142,7 @@ export function DashboardIntro() {
+       // Readiness timeout: if it doesn't become playable in 5s, skip
+       readinessTimer.current = setTimeout(() => {
+         video.removeEventListener('canplay', startPlayback);
+-        beginExit('readiness timeout');
++        beginExit();
+       }, 5000);
+     }
+ 
+@@ -146,7 +150,7 @@ export function DashboardIntro() {
+     const handleKeyDown = (e: KeyboardEvent) => {
+       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+         if (e.key === ' ') e.preventDefault(); // Prevent scroll on spacebar
+-        beginExit('keyboard ' + e.key);
++        beginExit();
+       }
+     };
+     globalThis.addEventListener('keydown', handleKeyDown);
+@@ -165,7 +169,7 @@ export function DashboardIntro() {
+     
+     // The video is 4.083s. We fade out starting around 3.90s.
+     if (videoRef.current.currentTime >= 3.90) {
+-      beginExit('timeupdate 3.90');
++      beginExit();
+     }
+   };
+ 
+@@ -194,13 +198,13 @@ export function DashboardIntro() {
+         className="w-full h-full object-contain"
+         onTimeUpdate={handleTimeUpdate}
+         onEnded={handleEnded}
+-        onError={() => beginExit('video error')}
+-        onAbort={() => beginExit('video abort')}
++        onError={beginExit}
++        onAbort={beginExit}
+         aria-hidden="true"
+       />
+       
+       <button type="button"
+-        onClick={() => beginExit('skip button')}
++        onClick={beginExit}
+         className="absolute top-6 right-6 px-4 py-2 rounded-md bg-ink/10 hover:bg-ink/20 text-ink/80 text-[13px] font-semibold transition-colors focus-visible outline-none focus:ring-2 focus:ring-ink/40"
+         aria-label="Skip intro animation"
+       >
+diff --git a/src/components/brantra/dashboard/DealCaptureEntry.tsx b/src/components/brantra/dashboard/DealCaptureEntry.tsx
+index 8135d33..a17dd9a 100644
+--- a/src/components/brantra/dashboard/DealCaptureEntry.tsx
++++ b/src/components/brantra/dashboard/DealCaptureEntry.tsx
+@@ -1,10 +1,11 @@
+ 'use client';
+ import { useState } from 'react';
+-import { CheckCircle2, Clock } from 'lucide-react';
++import { CheckCircle2, Clock, Sparkles, X } from 'lucide-react';
+ 
+ export function DealCaptureEntry() {
+   const [isFocused, setIsFocused] = useState(false);
+   const [content, setContent] = useState('');
++  const [isReviewed, setIsReviewed] = useState(false);
+ 
+   return (
+     <div 
+@@ -22,25 +23,42 @@ export function DealCaptureEntry() {
+       </div>
+       
+       <div className="flex flex-col gap-3 relative mb-6">
+-        <textarea 
++        <textarea
+           className="w-full textarea-expandable resize-y rounded-lg border border-border/80 bg-canvas px-3 py-3 text-[13px] text-ink placeholder:text-text-secondary/70 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent shadow-sm"
+           placeholder="Paste a DM, email, or brand briefΓÇª"
+           aria-label="Paste deal terms"
+           value={content}
+           onChange={(e) => setContent(e.target.value)}
++          onInput={() => setIsReviewed(false)}
+         />
+         
+         <div className={`transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
+           isFocused || content ? 'max-h-12 opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2'
+         }`}>
+-          <button type="button" 
++          <button type="button"
++            onClick={() => setIsReviewed(true)}
++            disabled={!content.trim()}
+             className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-ink px-6 text-[13px] font-medium text-white hover:bg-ink/80 transition-btn focus-visible shadow-sm"
+           >
+-            Review Deal
++            <Sparkles className="w-3.5 h-3.5" /> Review Deal
+           </button>
+         </div>
+       </div>
+ 
++      {isReviewed && (
++        <div className="mb-6 rounded-xl border border-accent/20 bg-accent/5 p-4 animate-reveal" aria-live="polite">
++          <div className="flex items-center justify-between gap-3 mb-3">
++            <p className="text-[12px] font-bold text-ink">Draft terms detected</p>
++            <button type="button" onClick={() => setIsReviewed(false)} className="text-text-secondary hover:text-ink focus-visible" aria-label="Dismiss review"><X className="w-4 h-4" /></button>
++          </div>
++          <dl className="grid grid-cols-2 gap-3 text-[11px]">
++            <div><dt className="text-text-secondary">Deliverable</dt><dd className="font-semibold text-ink mt-0.5">Sponsored short-form video</dd></div>
++            <div><dt className="text-text-secondary">Status</dt><dd className="font-semibold text-waiting mt-0.5">Needs confirmation</dd></div>
++          </dl>
++          <p className="mt-3 text-[10px] text-text-secondary">Demo extraction only. Confirmed terms will be saved when the backend is connected.</p>
++        </div>
++      )}
++
+       {/* Recent Captures */}
+       <div className="mt-auto border-t border-border/50 pt-4">
+         <div className="flex flex-col gap-3">
+@@ -50,7 +68,7 @@ export function DealCaptureEntry() {
+               <span className="text-[12px] font-semibold text-ink">Solace Beauty</span>
+               <span className="text-[12px] text-text-secondary truncate">ΓÇö Terms need review</span>
+             </div>
+-            <button type="button" className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
++            <button type="button" onClick={() => { setContent('1 Instagram Reel for Solace Beauty, due Friday. Include 90-day usage rights.'); setIsReviewed(true); }} className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
+           </div>
+           <div className="flex items-center gap-2.5">
+             <CheckCircle2 className="w-3.5 h-3.5 text-completed shrink-0" />
+diff --git a/src/components/brantra/shell/AppHeader.tsx b/src/components/brantra/shell/AppHeader.tsx
+index f01efd6..f2d095b 100644
+--- a/src/components/brantra/shell/AppHeader.tsx
++++ b/src/components/brantra/shell/AppHeader.tsx
+@@ -1,100 +1,170 @@
++'use client';
++
+ import Image from 'next/image';
+-import { Search, Bell, Plus } from 'lucide-react';
++import Link from 'next/link';
++import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
++import { ArrowRight, Bell, Check, LogOut, Plus, Search, Settings, User, X } from 'lucide-react';
+ import { BRAND } from '../../../config/brand';
++import { campaigns } from '../../../data/mock-dashboard';
++
++type Panel = 'search' | 'notifications' | 'new-deal' | 'profile' | null;
++
++const notifications = [
++  { id: 1, title: 'Aster Skin left feedback', detail: 'Revised cut requested 18 minutes ago', urgent: true },
++  { id: 2, title: 'Morrow Coffee approval is pending', detail: 'A friendly follow-up is ready to send', urgent: false },
++];
+ 
+ export function AppHeader() {
++  const [panel, setPanel] = useState<Panel>(null);
++  const [query, setQuery] = useState('');
++  const [created, setCreated] = useState(false);
++  const searchRef = useRef<HTMLInputElement>(null);
++
++  const results = useMemo(() => {
++    const normalized = query.trim().toLowerCase();
++    if (!normalized) return campaigns;
++    return campaigns.filter((campaign) =>
++      `${campaign.brandName} ${campaign.deliverableFormat} ${campaign.stage}`.toLowerCase().includes(normalized)
++    );
++  }, [query]);
++
++  useEffect(() => {
++    if (!panel) return;
++    const previousOverflow = document.body.style.overflow;
++    document.body.style.overflow = 'hidden';
++    const handleKeyDown = (event: KeyboardEvent) => {
++      if (event.key === 'Escape') setPanel(null);
++    };
++    globalThis.addEventListener('keydown', handleKeyDown);
++    if (panel === 'search') requestAnimationFrame(() => searchRef.current?.focus());
++    return () => {
++      document.body.style.overflow = previousOverflow;
++      globalThis.removeEventListener('keydown', handleKeyDown);
++    };
++  }, [panel]);
++
++  useEffect(() => {
++    const openSearchShortcut = (event: KeyboardEvent) => {
++      const target = event.target as HTMLElement | null;
++      const isTyping = target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable;
++      if (event.key === '/' && !isTyping) {
++        event.preventDefault();
++        setPanel('search');
++      }
++    };
++    globalThis.addEventListener('keydown', openSearchShortcut);
++    return () => globalThis.removeEventListener('keydown', openSearchShortcut);
++  }, []);
++
++  const openPanel = (nextPanel: Panel) => {
++    setCreated(false);
++    setPanel(nextPanel);
++  };
++
++  const createDeal = (event: FormEvent<HTMLFormElement>) => {
++    event.preventDefault();
++    setCreated(true);
++  };
++
+   return (
+     <div className="px-4 lg:px-8 pt-4 lg:pt-6 w-full shrink-0 relative z-20">
+-      <header className="flex flex-col lg:flex-row lg:h-[80px] lg:items-center justify-between bg-canvas px-4 lg:px-8 py-4 lg:py-0 rounded-3xl shadow-premium">
+-      
+-      {/* Left Context */}
+-      <div className="flex flex-col">
+-        {/* Desktop: Full Wordmark */}
+-        <div className="hidden lg:flex items-center mt-1">
+-          <Image 
+-            src={BRAND.logoWordmarkPath} 
+-            alt={BRAND.name} 
+-            width={104} 
+-            height={27} 
+-            className="object-contain" 
+-            priority
+-          />
+-        </div>
+-
+-        {/* Mobile: Symbol + Today's Desk */}
+-        <div className="flex lg:hidden items-center gap-3">
+-          <Image 
+-            src={BRAND.logoMarkPath} 
+-            alt="" 
+-            width={28} 
+-            height={28} 
+-            className="object-contain" 
+-            priority
+-          />
+-          <h1 className="text-[22px] font-bold text-ink tracking-tight">Today&apos;s Desk</h1>
+-        </div>
+-        
+-        <p className="text-[13px] text-text-secondary mt-1 font-medium lg:hidden flex items-center gap-2">
+-          <span className="text-urgent font-bold bg-urgent/10 px-2 py-0.5 rounded-md">2 actions</span> need your attention today.
+-        </p>
+-      </div>
+-
+-      {/* Center Search & Right Actions */}
+-      <div className="flex items-center justify-between lg:justify-end flex-1 lg:max-w-2xl gap-4">
+-        
+-        {/* Search Input (Desktop Only) */}
+-        <div className="hidden lg:block relative flex-1 max-w-[320px]">
+-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+-            <Search className="h-[16px] w-[16px] text-text-secondary" aria-hidden="true" />
++      <header className="flex lg:h-[80px] lg:items-center justify-between bg-canvas px-4 lg:px-8 py-4 lg:py-0 rounded-3xl shadow-premium">
++        <div className="flex flex-col">
++          <Image src={BRAND.logoWordmarkPath} alt={BRAND.name} width={104} height={27} className="hidden lg:block object-contain" priority />
++          <div className="flex lg:hidden items-center gap-2 shrink-0">
++            <Image src={BRAND.logoMarkPath} alt="" width={24} height={24} className="object-contain shrink-0" priority />
++            <div>
++              <h1 className="text-[16px] sm:text-[18px] font-bold text-ink leading-tight whitespace-nowrap">Today&apos;s Desk</h1>
++              <p className="text-[10px] text-text-secondary font-medium max-[420px]:hidden"><span className="text-urgent font-bold">2 actions</span> need attention</p>
++            </div>
+           </div>
+-          <input
+-            type="text"
+-            className="block w-full rounded-full border border-transparent bg-surface py-2.5 pl-11 pr-4 text-[13px] text-ink placeholder:text-text-secondary focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all shadow-sm hover:shadow-md"
+-            placeholder="Search deals or brands..."
+-          />
+         </div>
+ 
+-        <div className="flex items-center gap-3 shrink-0 ml-auto lg:ml-0">
+-          
+-          {/* Mobile Search Icon */}
+-          <button type="button" 
+-            className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-sm hover:shadow-md transition-all focus-visible"
+-            aria-label="Search"
+-          >
+-            <Search className="h-[18px] w-[18px]" aria-hidden="true" />
++        <div className="flex items-center justify-end flex-1 lg:max-w-2xl gap-3">
++          <button type="button" onClick={() => openPanel('search')} className="hidden lg:flex flex-1 max-w-[320px] items-center gap-3 rounded-full bg-surface py-2.5 px-4 text-[13px] text-text-secondary shadow-sm hover:shadow-md transition-all focus-visible">
++            <Search className="h-4 w-4" aria-hidden="true" /><span>Search deals or brands...</span><kbd className="ml-auto text-[10px] border border-border rounded px-1.5 py-0.5 bg-canvas">/</kbd>
+           </button>
+-
+-          {/* Notifications */}
+-          <button type="button" 
+-            className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent bg-surface text-ink hover:text-accent shadow-sm hover:shadow-md transition-all focus-visible"
+-            aria-label="Notifications"
+-          >
+-            <Bell className="h-[18px] w-[18px]" aria-hidden="true" />
+-            <span className="absolute top-[8px] right-[10px] h-2 w-2 rounded-full bg-urgent border-2 border-surface animate-pulse-twice"></span>
++          <button type="button" onClick={() => openPanel('search')} className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-sm focus-visible" aria-label="Search"><Search className="h-[18px] w-[18px]" aria-hidden="true" /></button>
++          <button type="button" onClick={() => openPanel('notifications')} className="relative flex h-10 w-10 items-center justify-center rounded-full bg-surface text-ink hover:text-accent shadow-sm focus-visible" aria-label="Open notifications">
++            <Bell className="h-[18px] w-[18px]" aria-hidden="true" /><span className="absolute top-2 right-2.5 h-2 w-2 rounded-full bg-urgent border-2 border-surface"><span className="sr-only">2 unread notifications</span></span>
+           </button>
+-
+-          {/* New Deal Button */}
+-          <button type="button" 
+-            className="flex h-10 items-center gap-1.5 rounded-full bg-accent px-5 text-[13px] font-bold text-white hover:bg-accent-hover shadow-sm hover:shadow-md transition-all focus-visible ml-1"
+-          >
+-            <Plus className="h-4 w-4" aria-hidden="true" />
+-            <span className="hidden sm:inline">New Deal</span>
++          <button type="button" onClick={() => openPanel('new-deal')} className="flex h-10 items-center gap-1.5 rounded-full bg-accent px-4 sm:px-5 text-[13px] font-bold text-white hover:bg-accent-hover shadow-sm focus-visible">
++            <Plus className="h-4 w-4" aria-hidden="true" /><span className="hidden sm:inline">New Deal</span>
+           </button>
++          <button type="button" onClick={() => openPanel('profile')} className="h-10 w-10 rounded-full bg-ink text-white text-[12px] font-bold shadow-sm hover:bg-accent transition-colors focus-visible" aria-label="Open profile menu">FM</button>
++        </div>
++      </header>
++
++      {panel && (
++        <div className="fixed inset-0 z-[90] flex items-start justify-center p-4 pt-[10vh]" role="dialog" aria-modal="true" aria-label={`${panel.replace('-', ' ')} panel`}>
++          <button type="button" className="absolute inset-0 bg-ink/45 backdrop-blur-sm cursor-default" onClick={() => setPanel(null)} aria-label="Close panel" />
++          <div className="relative w-full max-w-xl rounded-2xl bg-surface border border-border shadow-2xl overflow-hidden animate-reveal">
++            <div className="flex items-center justify-between px-5 py-4 border-b border-border/70">
++              <h2 className="text-[15px] font-bold text-ink">
++                {panel === 'search' && 'Search workspace'}{panel === 'notifications' && 'Notifications'}{panel === 'new-deal' && 'Capture a new deal'}{panel === 'profile' && 'Felix Morgan'}
++              </h2>
++              <button type="button" onClick={() => setPanel(null)} className="p-2 rounded-full hover:bg-canvas text-text-secondary focus-visible" aria-label="Close"><X className="w-4 h-4" /></button>
++            </div>
+ 
+-          {/* Profile Avatar */}
+-          <div className="h-10 w-10 rounded-full border border-transparent overflow-hidden shrink-0 cursor-pointer hover:scale-105 shadow-sm transition-transform ml-1">
+-            <Image 
+-              src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=F4E7EA" 
+-              alt="Profile"
+-              width={40}
+-              height={40}
+-              className="w-full h-full object-cover bg-surface-secondary"
+-              unoptimized
+-            />
++            {panel === 'search' && (
++              <div>
++                <label className="flex items-center gap-3 px-5 border-b border-border/70">
++                  <Search className="w-5 h-5 text-text-secondary" /><span className="sr-only">Search deals or brands</span>
++                  <input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} className="w-full py-4 bg-transparent text-[15px] outline-none placeholder:text-text-secondary" placeholder="Try ΓÇ£AsterΓÇ¥ or ΓÇ£approvalΓÇ¥" />
++                </label>
++                <div className="p-3 max-h-[50vh] overflow-y-auto">
++                  {results.length > 0 ? results.map((campaign) => (
++                    <button key={campaign.id} type="button" onClick={() => setPanel(null)} className="w-full flex items-center justify-between gap-4 p-3 rounded-xl text-left hover:bg-canvas focus-visible">
++                      <span><span className="block text-[14px] font-semibold text-ink">{campaign.brandName}</span><span className="block text-[12px] text-text-secondary mt-0.5">{campaign.deliverableFormat}</span></span>
++                      <span className="text-[11px] font-semibold text-accent capitalize">{campaign.stage.replace('-', ' ')}</span>
++                    </button>
++                  )) : <p className="p-8 text-center text-[13px] text-text-secondary">No deals match ΓÇ£{query}ΓÇ¥.</p>}
++                </div>
++              </div>
++            )}
++
++            {panel === 'notifications' && (
++              <div className="p-3">
++                {notifications.map((notification) => (
++                  <button key={notification.id} type="button" onClick={() => setPanel(null)} className="w-full flex gap-3 p-3 rounded-xl text-left hover:bg-canvas focus-visible">
++                    <span className={`mt-1.5 h-2 w-2 rounded-full shrink-0 ${notification.urgent ? 'bg-urgent' : 'bg-waiting'}`} />
++                    <span><span className="block text-[14px] font-semibold text-ink">{notification.title}</span><span className="block text-[12px] text-text-secondary mt-1">{notification.detail}</span></span>
++                  </button>
++                ))}
++                <p className="px-3 pt-3 pb-2 text-[11px] text-text-secondary border-t border-border/60">You&apos;re all caught up beyond these two items.</p>
++              </div>
++            )}
++
++            {panel === 'new-deal' && !created && (
++              <form onSubmit={createDeal} className="p-5 grid sm:grid-cols-2 gap-4">
++                <label className="sm:col-span-2 text-[12px] font-semibold text-ink">Brand name<input name="brand" required autoFocus className="mt-1.5 w-full h-11 rounded-lg border border-border bg-canvas px-3 outline-none focus:border-accent" placeholder="e.g. Aster Skin" /></label>
++                <label className="text-[12px] font-semibold text-ink">Deal value<input name="value" type="number" min="0" required className="mt-1.5 w-full h-11 rounded-lg border border-border bg-canvas px-3 outline-none focus:border-accent" placeholder="$0" /></label>
++                <label className="text-[12px] font-semibold text-ink">Deadline<input name="deadline" type="date" required className="mt-1.5 w-full h-11 rounded-lg border border-border bg-canvas px-3 outline-none focus:border-accent" /></label>
++                <label className="sm:col-span-2 text-[12px] font-semibold text-ink">Deliverables<textarea name="deliverables" required className="mt-1.5 w-full min-h-24 rounded-lg border border-border bg-canvas p-3 outline-none focus:border-accent resize-y" placeholder="1x Instagram Reel, 3 months paid usage..." /></label>
++                <button type="submit" className="sm:col-span-2 h-11 rounded-lg bg-accent text-white font-bold text-[13px] hover:bg-accent-hover focus-visible">Create draft deal</button>
++              </form>
++            )}
++
++            {panel === 'new-deal' && created && (
++              <div className="p-8 text-center" aria-live="polite">
++                <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-completed/10 text-completed"><Check className="w-6 h-6" /></span>
++                <h3 className="text-[18px] font-bold text-ink">Draft deal created</h3>
++                <p className="text-[13px] text-text-secondary mt-2">The prototype has captured the flow. Backend persistence can plug into this submit action later.</p>
++                <button type="button" onClick={() => setPanel(null)} className="mt-6 inline-flex h-10 items-center gap-2 rounded-lg bg-ink px-5 text-[13px] font-bold text-white focus-visible">Done <ArrowRight className="w-4 h-4" /></button>
++              </div>
++            )}
++
++            {panel === 'profile' && (
++              <div className="p-3">
++                <div className="p-3 mb-2 rounded-xl bg-canvas"><p className="text-[13px] font-semibold text-ink">felix@studio.co</p><p className="text-[11px] text-text-secondary mt-1">Independent creator workspace</p></div>
++                <button type="button" disabled className="w-full flex items-center gap-3 p-3 rounded-xl text-[13px] font-medium text-text-secondary"><User className="w-4 h-4" /> Profile <span className="ml-auto text-[10px] uppercase">Soon</span></button>
++                <button type="button" disabled className="w-full flex items-center gap-3 p-3 rounded-xl text-[13px] font-medium text-text-secondary"><Settings className="w-4 h-4" /> Settings <span className="ml-auto text-[10px] uppercase">Soon</span></button>
++                <Link href="/" className="w-full flex items-center gap-3 p-3 rounded-xl text-[13px] font-medium text-urgent hover:bg-urgent/5 focus-visible"><LogOut className="w-4 h-4" /> Exit demo</Link>
++              </div>
++            )}
+           </div>
+         </div>
+-      </div>
+-      </header>
++      )}
+     </div>
+   );
+ }
+diff --git a/src/components/brantra/shell/AppShell.tsx b/src/components/brantra/shell/AppShell.tsx
+index 8718f0a..18c66ef 100644
+--- a/src/components/brantra/shell/AppShell.tsx
++++ b/src/components/brantra/shell/AppShell.tsx
+@@ -17,7 +17,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
+         <MobileNavigation />
+         <AppHeader />
+ 
+-        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 pb-32 lg:pb-12 scroll-smooth">
++        <main id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 lg:p-10 pb-32 lg:pb-12 scroll-smooth">
+           {children}
+         </main>
+       </div>
+diff --git a/src/components/brantra/shell/AppSidebar.tsx b/src/components/brantra/shell/AppSidebar.tsx
+index 9730d00..f0b4fd5 100644
+--- a/src/components/brantra/shell/AppSidebar.tsx
++++ b/src/components/brantra/shell/AppSidebar.tsx
+@@ -20,7 +20,7 @@ export function AppSidebar() {
+         aria-label="Desktop Navigation"
+       >
+         {/* Logo */}
+-        <div className="flex h-12 w-12 shrink-0 items-center justify-center mb-8 text-ink hover:scale-105 transition-transform cursor-pointer">
++        <Link href="/dashboard" className="flex h-12 w-12 shrink-0 items-center justify-center mb-8 text-ink hover:scale-105 transition-transform focus-visible" aria-label="Brantra dashboard">
+           <Image 
+             src={BRAND.logoMarkPath}
+             alt={`${BRAND.name} workspace`} 
+@@ -28,7 +28,7 @@ export function AppSidebar() {
+             height={34} 
+             className="object-contain" 
+           />
+-        </div>
++        </Link>
+         
+         {/* Nav Items */}
+         <div className="flex-1 flex flex-col items-center gap-4 w-full overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+diff --git a/src/components/marketing/HeroSection.tsx b/src/components/marketing/HeroSection.tsx
+index acf1e1c..ffa5979 100644
+--- a/src/components/marketing/HeroSection.tsx
++++ b/src/components/marketing/HeroSection.tsx
+@@ -91,7 +91,7 @@ export function HeroSection() {
+                   <div className="w-3 h-3 border-2 border-white bg-white"></div>
+                 </div>
+               </div>
+-              <div className="p-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-surface">
++              <div className="p-4 bg-surface [background-image:radial-gradient(rgba(30,26,29,0.1)_1px,transparent_1px)] [background-size:12px_12px]">
+                 <div className="text-[14px] font-bold mb-3 font-mono border-b-2 border-ink pb-2">Deliverables</div>
+                 <div className="flex justify-between items-center text-[12px] py-1.5 font-medium">
+                   <span>1x Instagram Reel</span>
+diff --git a/src/components/marketing/HumanCreatorSection.tsx b/src/components/marketing/HumanCreatorSection.tsx
+index bcfd03f..06dba7e 100644
+--- a/src/components/marketing/HumanCreatorSection.tsx
++++ b/src/components/marketing/HumanCreatorSection.tsx
+@@ -10,7 +10,7 @@ export function HumanCreatorSection() {
+                <span className="text-[10px] font-mono font-bold text-white tracking-widest uppercase">CREATOR_IMG.JPG</span>
+                <div className="w-4 h-4 bg-white border-2 border-ink"></div>
+             </div>
+-            <div className="w-full h-full pt-8 flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
++            <div className="w-full h-full pt-8 flex items-center justify-center [background-image:radial-gradient(rgba(30,26,29,0.12)_1px,transparent_1px)] [background-size:12px_12px]">
+               <div className="text-center p-8 bg-white border-2 border-ink shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] -rotate-3">
+                 <div className="text-[12px] font-bold font-mono tracking-widest uppercase text-ink mb-2">
+                   Creator Portrait
+diff --git a/src/components/marketing/MarketingFooter.tsx b/src/components/marketing/MarketingFooter.tsx
+index 4db840b..f6b8e8a 100644
+--- a/src/components/marketing/MarketingFooter.tsx
++++ b/src/components/marketing/MarketingFooter.tsx
+@@ -47,8 +47,8 @@ export function MarketingFooter() {
+             
+             <div className="flex flex-col gap-4">
+               <h4 className="text-[16px] font-bold font-editorial text-ink mb-2 bg-canvas border-2 border-ink px-2 py-1 inline-block -rotate-2 shadow-[2px_2px_0px_0px_rgba(30,26,29,1)]">LEGAL</h4>
+-              <button type="button" disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Privacy Policy (Coming Soon)">Privacy [TBD]</button>
+-              <button type="button" disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Terms of Service (Coming Soon)">Terms [TBD]</button>
++              <Link href="/privacy" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">Privacy</Link>
++              <Link href="/terms" className="text-[13px] font-mono font-bold uppercase text-ink hover:text-accent hover:underline underline-offset-4 focus-visible outline-none">Terms</Link>
+             </div>
+           </div>
+ 
+diff --git a/src/components/marketing/PainInsightsSection.tsx b/src/components/marketing/PainInsightsSection.tsx
+index 28cbb14..0f876df 100644
+--- a/src/components/marketing/PainInsightsSection.tsx
++++ b/src/components/marketing/PainInsightsSection.tsx
+@@ -15,7 +15,7 @@ export function PainInsightsSection() {
+   ];
+ 
+   return (
+-    <section className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-canvas border-b-2 border-ink">
++    <section id="why-brantra" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-canvas border-b-2 border-ink">
+       <div className="max-w-7xl mx-auto">
+         <div className="text-center mb-20 max-w-3xl mx-auto">
+           <div className="bg-ink text-white font-mono text-[12px] font-bold tracking-widest uppercase border-2 border-ink px-4 py-1.5 shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] inline-block mb-8 rotate-1">
+diff --git a/src/components/marketing/SmoothScroll.tsx b/src/components/marketing/SmoothScroll.tsx
+index 138f3c0..d37f5be 100644
+--- a/src/components/marketing/SmoothScroll.tsx
++++ b/src/components/marketing/SmoothScroll.tsx
+@@ -25,16 +25,17 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
+     lenis.on("scroll", ScrollTrigger.update);
+ 
+     // Add Lenis to GSAP's ticker
+-    gsap.ticker.add((time) => {
++    const update = (time: number) => {
+       lenis.raf(time * 1000);
+-    });
++    };
++    gsap.ticker.add(update);
+     
+     // Disable GSAP's lag smoothing to avoid conflicts with Lenis
+     gsap.ticker.lagSmoothing(0);
+ 
+     return () => {
+       // Cleanup
+-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
++      gsap.ticker.remove(update);
+       lenis.destroy();
+     };
+   }, []);
+diff --git a/src/components/marketing/VideoTourSection.tsx b/src/components/marketing/VideoTourSection.tsx
+index 99a06c8..74d9f1b 100644
+--- a/src/components/marketing/VideoTourSection.tsx
++++ b/src/components/marketing/VideoTourSection.tsx
+@@ -1,72 +1,68 @@
+-import Image from "next/image";
+-import { Play } from "lucide-react";
++'use client';
++
++import Link from 'next/link';
++import { ArrowRight, CheckCircle2, Play, X } from 'lucide-react';
++import { useEffect, useState } from 'react';
+ 
+ export function VideoTourSection() {
++  const [previewOpen, setPreviewOpen] = useState(false);
++
++  useEffect(() => {
++    if (!previewOpen) return;
++    const closeOnEscape = (event: KeyboardEvent) => {
++      if (event.key === 'Escape') setPreviewOpen(false);
++    };
++    globalThis.addEventListener('keydown', closeOnEscape);
++    return () => globalThis.removeEventListener('keydown', closeOnEscape);
++  }, [previewOpen]);
++
+   return (
+     <section id="video-tour" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-ink border-b-2 border-ink relative overflow-hidden">
+-      
+-      {/* Background Retro Grid */}
+-      <div 
+-        className="absolute inset-0 z-0 opacity-20 pointer-events-none" 
+-        style={{ backgroundImage: 'radial-gradient(#F8F5F2 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}
+-      ></div>
+-
++      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#F8F5F2 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }} />
+       <div className="max-w-6xl mx-auto flex flex-col items-center relative z-10">
+-        
+-        <div className="text-center mb-16 flex flex-col items-center">
+-          <div className="bg-accent text-white font-mono text-[12px] font-bold tracking-widest uppercase border-2 border-white px-4 py-1.5 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rotate-1 mb-6">
+-            90-Sec Product Walkthrough
+-          </div>
+-          <h3 className="font-editorial text-[40px] md:text-[64px] leading-[1] tracking-tight text-white mb-2">
+-            See how Brantra brings <br className="hidden md:block" /> order to chaos.
+-          </h3>
++        <div className="text-center mb-12 flex flex-col items-center">
++          <div className="bg-accent text-white font-mono text-[12px] font-bold tracking-widest uppercase border-2 border-white px-4 py-1.5 shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rotate-1 mb-6">Interactive Product Preview</div>
++          <h2 className="font-editorial text-[40px] md:text-[64px] leading-[1] text-white">See how Brantra brings <br className="hidden md:block" /> order to chaos.</h2>
+         </div>
+ 
+-        {/* Video Player Placeholder Area */}
+-        <div className="relative w-full aspect-video bg-canvas border-2 border-canvas shadow-[12px_12px_0px_0px_rgba(210,50,80,1)] group">
+-          
++        <button type="button" onClick={() => setPreviewOpen(true)} className="relative w-full aspect-video bg-canvas border-2 border-canvas shadow-[12px_12px_0px_0px_rgba(210,50,80,1)] group overflow-hidden focus-visible" aria-label="Open interactive dashboard preview">
+           <div className="absolute top-0 left-0 right-0 h-8 bg-surface-secondary border-b-2 border-ink flex items-center px-4 gap-2 z-20">
+-            <div className="w-3 h-3 bg-canvas border-2 border-ink rounded-full"></div>
+-            <div className="w-3 h-3 bg-canvas border-2 border-ink rounded-full"></div>
+-            <div className="w-3 h-3 bg-canvas border-2 border-ink rounded-full"></div>
+-            <div className="mx-auto text-[10px] font-mono font-bold text-ink/50 tracking-widest">BRANTRA_DEMO_V1.MP4</div>
++            <span className="w-3 h-3 bg-canvas border-2 border-ink rounded-full" /><span className="w-3 h-3 bg-canvas border-2 border-ink rounded-full" /><span className="w-3 h-3 bg-accent border-2 border-ink rounded-full" />
++            <span className="mx-auto text-[10px] font-mono font-bold text-ink/50 tracking-widest">BRANTRA_WORKSPACE.APP</span>
+           </div>
++          <iframe src="/dashboard?intro=0" title="Brantra dashboard preview" tabIndex={-1} className="absolute inset-x-0 bottom-0 top-8 w-full h-[calc(100%-2rem)] border-0 pointer-events-none bg-canvas opacity-85 group-hover:opacity-100 transition-opacity" />
++          <span className="absolute inset-0 pt-8 bg-ink/30 flex items-center justify-center z-30">
++            <span className="w-20 h-20 md:w-24 md:h-24 bg-accent flex items-center justify-center border-4 border-ink shadow-[8px_8px_0px_0px_rgba(30,26,29,1)] transition-transform group-hover:scale-105 group-hover:rotate-3"><Play className="h-9 w-9 text-white ml-1 fill-white" /></span>
++          </span>
++        </button>
+ 
+-          <Image
+-            src="/marketing/brantra-dashboard-tour.webp"
+-            alt="Brantra Dashboard showing the deal management workspace"
+-            fill
+-            className="object-cover object-top opacity-80 group-hover:opacity-100 transition-opacity duration-500 pt-8"
+-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+-          />
++        <div className="mt-16 flex flex-wrap justify-center items-center gap-3 text-[12px] md:text-[14px] font-bold font-mono" aria-label="Brantra workflow">
++          {['CAPTURE', 'CREATE', 'APPROVE', 'PUBLISH'].map((step) => <span key={step} className="bg-canvas text-ink px-3 py-1 border-2 border-ink shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">{step}</span>)}
++          <span className="bg-accent text-white px-3 py-1 border-2 border-white shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] rotate-2">GET PAID</span>
++        </div>
++      </div>
+ 
+-          {/* Video Controls Overlay */}
+-          <div className="absolute inset-0 pt-8 bg-ink/30 flex items-center justify-center z-30">
+-            {/* Play Button - Non-interactive indicator since video is coming soon */}
+-            <div 
+-              className="w-24 h-24 bg-accent flex items-center justify-center border-4 border-ink shadow-[8px_8px_0px_0px_rgba(30,26,29,1)] transition-transform group-hover:scale-105 group-hover:rotate-6 cursor-pointer"
+-              aria-label="Product tour video is being prepared"
+-              role="img"
+-            >
+-              <Play className="h-10 w-10 text-white ml-2 fill-white" />
++      {previewOpen && (
++        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-labelledby="preview-title">
++          <button type="button" className="absolute inset-0 bg-ink/80 backdrop-blur-md cursor-default" onClick={() => setPreviewOpen(false)} aria-label="Close preview" />
++          <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-canvas border-2 border-white shadow-[12px_12px_0px_0px_rgba(216,81,112,1)]">
++            <div className="sticky top-0 z-20 flex items-center justify-between gap-4 bg-surface-secondary border-b-2 border-ink px-4 py-3">
++              <div><p className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent">Guided preview</p><h3 id="preview-title" className="text-[16px] font-bold text-ink">Your entire deal cycle, at a glance</h3></div>
++              <button type="button" onClick={() => setPreviewOpen(false)} className="w-10 h-10 flex items-center justify-center border-2 border-ink bg-canvas hover:bg-accent hover:text-white focus-visible" aria-label="Close preview"><X className="w-5 h-5" /></button>
++            </div>
++            <div className="grid lg:grid-cols-[1fr_300px]">
++              <div className="relative bg-canvas" style={{ minHeight: '360px', height: '60vh' }}><iframe src="/dashboard?intro=0" title="Interactive Brantra workspace" className="absolute inset-0 w-full h-full border-0 bg-canvas" /></div>
++              <div className="bg-white border-t-2 lg:border-t-0 lg:border-l-2 border-ink p-6 flex flex-col">
++                <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-text-secondary mb-5">What you can do</p>
++                <ul className="space-y-4">
++                  {['See todayΓÇÖs priorities instantly', 'Keep feedback tied to each draft', 'Track approvals, rights, and payments'].map((item) => <li key={item} className="flex gap-3 text-[13px] font-semibold text-ink"><CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />{item}</li>)}
++                </ul>
++                <Link href="/dashboard?intro=0" className="mt-8 lg:mt-auto h-12 flex items-center justify-center gap-2 bg-accent text-white border-2 border-ink font-bold text-[13px] hover:bg-accent-hover focus-visible">Explore the live demo <ArrowRight className="w-4 h-4" /></Link>
++              </div>
+             </div>
+           </div>
+         </div>
+-
+-        {/* Supporting Workflow labels */}
+-        <div className="mt-20 flex flex-wrap justify-center items-center gap-4 text-[14px] font-bold font-mono">
+-          <span className="bg-canvas text-ink px-3 py-1 border-2 border-ink shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">CAPTURE</span>
+-          <span className="text-white">ΓåÆ</span>
+-          <span className="bg-canvas text-ink px-3 py-1 border-2 border-ink shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">CREATE</span>
+-          <span className="text-white">ΓåÆ</span>
+-          <span className="bg-canvas text-ink px-3 py-1 border-2 border-ink shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">APPROVE</span>
+-          <span className="text-white">ΓåÆ</span>
+-          <span className="bg-canvas text-ink px-3 py-1 border-2 border-ink shadow-[2px_2px_0px_0px_rgba(255,255,255,1)]">PUBLISH</span>
+-          <span className="text-white">ΓåÆ</span>
+-          <span className="bg-accent text-white px-3 py-1 border-2 border-white shadow-[2px_2px_0px_0px_rgba(255,255,255,1)] rotate-2">GET PAID</span>
+-        </div>
+-
+-      </div>
++      )}
+     </section>
+   );
+ }
+diff --git a/src/config/brand.ts b/src/config/brand.ts
+index 810c5d6..7e3e912 100644
+--- a/src/config/brand.ts
++++ b/src/config/brand.ts
+@@ -2,6 +2,6 @@ export const BRAND = {
+   name: 'Brantra',
+   logoWordmarkPath: '/logos/brantra-wordmark.png',
+   logoMarkPath: '/logos/brantra-mark.png',
+-  introVideoPath: '/video/dashboard-intro.mp4',
++  introVideoPath: '/brantra-intro.mp4',
+   introSessionKey: 'brantra_dashboard_intro_played',
+ } as const;

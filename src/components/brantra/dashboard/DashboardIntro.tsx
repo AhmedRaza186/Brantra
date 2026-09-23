@@ -44,7 +44,7 @@ export function DashboardIntro() {
   }, []);
 
   // 2. beginExit: Starts the visual fade
-  const beginExit = useCallback((_reason?: string) => {
+  const beginExit = useCallback(() => {
     if (exitStarted.current || cleanupDone.current) return;
     exitStarted.current = true;
     setIsFadingOut(true);
@@ -59,7 +59,9 @@ export function DashboardIntro() {
     // We defer the start to avoid synchronous setState inside effect warning
     const initTimer = setTimeout(() => {
       let shouldPlay = false;
-      const forceReplay = typeof window !== 'undefined' && new URLSearchParams(globalThis.location.search).get('intro') === '1';
+      const introMode = typeof window !== 'undefined' ? new URLSearchParams(globalThis.location.search).get('intro') : null;
+      const forceReplay = introMode === '1';
+      const skipReplay = introMode === '0';
       
       try {
         const hasSeen = sessionStorage.getItem(BRAND.introSessionKey);
@@ -69,6 +71,8 @@ export function DashboardIntro() {
       } catch {
         shouldPlay = true;
       }
+
+      if (skipReplay) shouldPlay = false;
 
       // Check reduced motion (unless explicitly forced)
       const prefersReducedMotion = typeof window !== 'undefined' && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -119,11 +123,11 @@ export function DashboardIntro() {
         const duration = video.duration || 4.083;
         const effectiveDuration = duration / 1.4;
         safetyTimer.current = setTimeout(() => {
-          beginExit('safety timeout');
+          beginExit();
         }, (effectiveDuration + 1.5) * 1000);
-      }).catch((e) => {
+      }).catch(() => {
         // Autoplay rejected or failed
-        beginExit('play rejected: ' + e?.message);
+        beginExit();
       });
     };
 
@@ -138,7 +142,7 @@ export function DashboardIntro() {
       // Readiness timeout: if it doesn't become playable in 5s, skip
       readinessTimer.current = setTimeout(() => {
         video.removeEventListener('canplay', startPlayback);
-        beginExit('readiness timeout');
+        beginExit();
       }, 5000);
     }
 
@@ -146,7 +150,7 @@ export function DashboardIntro() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
         if (e.key === ' ') e.preventDefault(); // Prevent scroll on spacebar
-        beginExit('keyboard ' + e.key);
+        beginExit();
       }
     };
     globalThis.addEventListener('keydown', handleKeyDown);
@@ -165,7 +169,7 @@ export function DashboardIntro() {
     
     // The video is 4.083s. We fade out starting around 3.90s.
     if (videoRef.current.currentTime >= 3.90) {
-      beginExit('timeupdate 3.90');
+      beginExit();
     }
   };
 
@@ -194,13 +198,13 @@ export function DashboardIntro() {
         className="w-full h-full object-contain"
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
-        onError={() => beginExit('video error')}
-        onAbort={() => beginExit('video abort')}
+        onError={beginExit}
+        onAbort={beginExit}
         aria-hidden="true"
       />
       
       <button type="button"
-        onClick={() => beginExit('skip button')}
+        onClick={beginExit}
         className="absolute top-6 right-6 px-4 py-2 rounded-md bg-ink/10 hover:bg-ink/20 text-ink/80 text-[13px] font-semibold transition-colors focus-visible outline-none focus:ring-2 focus:ring-ink/40"
         aria-label="Skip intro animation"
       >

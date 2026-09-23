@@ -20,11 +20,14 @@ export default function LoginPage() {
       <form className="space-y-6" action="/dashboard">
         
         <div className="space-y-2">
-          <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+          <label htmlFor="login-email" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
             Email Address
           </label>
           <input
             type="email"
+            id="login-email"
+            name="email"
+            autoComplete="email"
             required
             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
             placeholder="you@example.com"
@@ -33,15 +36,18 @@ export default function LoginPage() {
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
+            <label htmlFor="login-password" className="block text-[12px] font-bold font-mono text-ink uppercase tracking-widest">
               Password
             </label>
-            <Link href="#" className="text-[12px] font-bold font-mono text-ink uppercase tracking-widest underline underline-offset-4 hover:text-accent">
+            <Link href="/forgot-password" className="text-[12px] font-bold font-mono text-ink uppercase tracking-widest underline underline-offset-4 hover:text-accent">
               Forgot?
             </Link>
           </div>
           <input
             type="password"
+            id="login-password"
+            name="password"
+            autoComplete="current-password"
             required
             className="w-full h-14 bg-canvas border-2 border-ink px-4 text-[16px] font-medium text-ink focus:outline-none focus:ring-0 focus:border-accent focus:shadow-[4px_4px_0px_0px_rgba(216,81,112,1)] shadow-[4px_4px_0px_0px_rgba(30,26,29,1)] transition-all placeholder:text-ink/30"
             placeholder="••••••••"

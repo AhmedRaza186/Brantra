@@ -20,7 +20,7 @@ export function AppSidebar() {
         aria-label="Desktop Navigation"
       >
         {/* Logo */}
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center mb-8 text-ink hover:scale-105 transition-transform cursor-pointer">
+        <Link href="/dashboard" className="flex h-12 w-12 shrink-0 items-center justify-center mb-8 text-ink hover:scale-105 transition-transform focus-visible" aria-label="Brantra dashboard">
           <Image 
             src={BRAND.logoMarkPath}
             alt={`${BRAND.name} workspace`} 
@@ -28,7 +28,7 @@ export function AppSidebar() {
             height={34} 
             className="object-contain" 
           />
-        </div>
+        </Link>
         
         {/* Nav Items */}
         <div className="flex-1 flex flex-col items-center gap-4 w-full overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>

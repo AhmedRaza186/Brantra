@@ -24,6 +24,7 @@ export default function RootLayout({
       className={`${instrumentSans.variable} scroll-smooth`}
     >
       <body className="min-h-screen flex flex-col font-sans bg-canvas text-ink">
+        <a href="#main-content" className="skip-link">Skip to content</a>
         {children}
       </body>
     </html>

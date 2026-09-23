@@ -17,7 +17,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNavigation />
         <AppHeader />
 
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 pb-32 lg:pb-12 scroll-smooth">
+        <main id="main-content" className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-8 lg:p-10 pb-32 lg:pb-12 scroll-smooth">
           {children}
         </main>
       </div>
