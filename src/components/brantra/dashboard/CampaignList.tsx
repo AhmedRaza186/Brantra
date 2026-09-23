@@ -1,4 +1,4 @@
-import { Campaign } from '@/types/dashboard';
+import { Campaign } from '../../../types/dashboard.ts';
 
 export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
   if (!campaigns || campaigns.length === 0) return null;
@@ -17,7 +17,7 @@ export function CampaignList({ campaigns }: { campaigns: Campaign[] }) {
         <div>
           <h2 className="text-section-heading text-ink">Active Campaigns</h2>
         </div>
-        <button className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible">
+        <button type="button" className="text-[12px] font-medium text-text-secondary hover:text-ink transition-nav focus-visible">
           View all
         </button>
       </div>

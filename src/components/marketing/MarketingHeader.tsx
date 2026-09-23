@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { BRAND } from "@/config/brand";
+import { BRAND } from "../../config/brand.ts";
 
 export function MarketingHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,18 +12,18 @@ export function MarketingHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(globalThis.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    globalThis.addEventListener("scroll", handleScroll, { passive: true });
+    return () => globalThis.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsMobileMenuOpen(false);
     };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
+    globalThis.addEventListener("keydown", handleEscape);
+    return () => globalThis.removeEventListener("keydown", handleEscape);
   }, []);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -86,7 +86,7 @@ export function MarketingHeader() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <button type="button"
             className="md:hidden flex items-center justify-center h-10 w-10 text-ink bg-canvas border-2 border-ink shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] rounded-none focus-visible outline-none focus-visible:ring-2 focus-visible:ring-ink"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}

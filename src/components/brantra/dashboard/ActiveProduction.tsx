@@ -1,7 +1,7 @@
 'use client';
-import { ActiveProductionData } from '@/types/dashboard';
+import { ActiveProductionData } from '../../../types/dashboard.ts';
 import { Upload, Eye, Clock, MessageCircle } from 'lucide-react';
-import { useInView } from '@/hooks/useInView';
+import { useInView } from '../../../hooks/useInView.ts';
 
 export function ActiveProduction({ data }: { data: ActiveProductionData }) {
   const workflowStages = ['Brief', 'Create', 'Review', 'Publish', 'Paid'];
@@ -20,7 +20,7 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
           
           {/* Left: 9:16 Video Preview Focal Point */}
           <div className="w-full md:w-[260px] shrink-0 group">
-            <button className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible">
+            <button type="button" className="relative w-full aspect-[9/16] bg-canvas border border-border/80 rounded-lg overflow-hidden flex flex-col items-center justify-center transition-transform duration-300 group-hover:scale-[1.01] focus-visible">
               
               <div className="absolute inset-0 bg-gradient-to-br from-surface-secondary to-canvas opacity-70"></div>
               
@@ -120,10 +120,10 @@ export function ActiveProduction({ data }: { data: ActiveProductionData }) {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <button className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
+              <button type="button" className="flex-1 flex items-center justify-center gap-2 bg-accent text-white font-medium py-3 rounded-lg hover:bg-accent-hover transition-btn focus-visible shadow-sm">
                 <Upload className="h-4 w-4" /> Upload Revised Cut
               </button>
-              <button className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
+              <button type="button" className="sm:flex-none flex items-center justify-center gap-2 bg-surface text-ink border border-border font-medium py-3 px-6 rounded-lg hover:bg-surface-secondary/50 transition-btn focus-visible">
                 <Eye className="h-4 w-4" /> View Feedback
               </button>
             </div>

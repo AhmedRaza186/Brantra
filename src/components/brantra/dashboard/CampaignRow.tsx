@@ -1,5 +1,5 @@
-import { Campaign } from '@/types/dashboard';
-import { StatusMark } from './StatusMark';
+import { Campaign } from '../../../types/dashboard.ts';
+import { StatusMark } from './StatusMark.tsx';
 
 export function CampaignRow({ campaign }: { campaign: Campaign }) {
   return (

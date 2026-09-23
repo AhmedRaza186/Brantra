@@ -1,6 +1,6 @@
-import { AppSidebar } from './AppSidebar';
-import { MobileNavigation } from './MobileNavigation';
-import { AppHeader } from './AppHeader';
+import { AppSidebar } from './AppSidebar.tsx';
+import { MobileNavigation } from './MobileNavigation.tsx';
+import { AppHeader } from './AppHeader.tsx';
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (

@@ -1,4 +1,4 @@
-import { AttentionItem } from '@/types/dashboard';
+import { AttentionItem } from '../../../types/dashboard.ts';
 
 export function AttentionQueue({ items }: { items: AttentionItem[] }) {
   if (!items || items.length === 0) return null;
@@ -48,7 +48,7 @@ export function AttentionQueue({ items }: { items: AttentionItem[] }) {
               
               {item.actionAffordance && (
                 <div className="mt-2 pt-2 border-t border-border/50">
-                  <button className="text-[12px] font-semibold text-accent hover:text-accent-hover transition-colors focus-visible">
+                  <button type="button" className="text-[12px] font-semibold text-accent hover:text-accent-hover transition-colors focus-visible">
                     {item.actionAffordance} &rarr;
                   </button>
                 </div>

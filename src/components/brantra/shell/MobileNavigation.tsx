@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NAVIGATION_ITEMS } from '@/config/navigation';
+import { NAVIGATION_ITEMS } from '../../../config/navigation.ts';
 
 export function MobileNavigation() {
   const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -38,7 +38,7 @@ export function MobileNavigation() {
 
           if (!item.available) {
             return (
-              <button
+              <button type="button"
                 key={item.label}
                 className={baseClass}
                 title={`${item.label} (Coming soon)`}
@@ -62,7 +62,7 @@ export function MobileNavigation() {
         })}
         
         {/* More Button */}
-        <button
+        <button type="button"
           onClick={() => setIsMoreOpen(true)}
           className="flex flex-col items-center justify-center gap-1.5 w-full transition-nav text-surface-secondary/60 hover:text-white focus-visible"
           aria-expanded={isMoreOpen}
@@ -90,7 +90,7 @@ export function MobileNavigation() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-section-heading text-ink">More</h2>
-              <button 
+              <button type="button" 
                 onClick={() => setIsMoreOpen(false)}
                 className="p-2 rounded-full hover:bg-canvas text-text-secondary focus-visible"
                 aria-label="Close menu"
@@ -113,7 +113,7 @@ export function MobileNavigation() {
 
                 if (!item.available) {
                   return (
-                    <button key={item.label} aria-disabled="true" className={baseClass} title={`${item.label} (Coming soon)`}>
+                    <button type="button" key={item.label} aria-disabled="true" className={baseClass} title={`${item.label} (Coming soon)`}>
                       {content}
                     </button>
                   );

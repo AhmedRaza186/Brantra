@@ -1,21 +1,21 @@
 import { Sun } from 'lucide-react';
-import { OperationalSummary } from '@/components/brantra/dashboard/OperationalSummary';
-import { ActiveProduction } from '@/components/brantra/dashboard/ActiveProduction';
-import { DealCaptureEntry } from '@/components/brantra/dashboard/DealCaptureEntry';
-import { AttentionQueue } from '@/components/brantra/dashboard/AttentionQueue';
-import { CampaignList } from '@/components/brantra/dashboard/CampaignList';
-import { AnalyticsDashboard } from '@/components/brantra/dashboard/AnalyticsDashboard';
-import { CampaignCalendar } from '@/components/brantra/dashboard/CampaignCalendar';
-import { UpcomingDeadlinesStrip } from '@/components/brantra/dashboard/UpcomingDeadlinesStrip';
-import { DashboardIntro } from '@/components/brantra/dashboard/DashboardIntro';
-import { StudioStatus } from '@/components/brantra/dashboard/StudioStatus';
+import { OperationalSummary } from '../../../components/brantra/dashboard/OperationalSummary.tsx';
+import { ActiveProduction } from '../../../components/brantra/dashboard/ActiveProduction.tsx';
+import { DealCaptureEntry } from '../../../components/brantra/dashboard/DealCaptureEntry.tsx';
+import { AttentionQueue } from '../../../components/brantra/dashboard/AttentionQueue.tsx';
+import { CampaignList } from '../../../components/brantra/dashboard/CampaignList.tsx';
+import { AnalyticsDashboard } from '../../../components/brantra/dashboard/AnalyticsDashboard.tsx';
+import { CampaignCalendar } from '../../../components/brantra/dashboard/CampaignCalendar.tsx';
+import { UpcomingDeadlinesStrip } from '../../../components/brantra/dashboard/UpcomingDeadlinesStrip.tsx';
+import { DashboardIntro } from '../../../components/brantra/dashboard/DashboardIntro.tsx';
+import { StudioStatus } from '../../../components/brantra/dashboard/StudioStatus.tsx';
 
 import { 
   operationalMetrics, 
   attentionQueue, 
   campaigns, 
   activeProduction
-} from '@/data/mock-dashboard';
+} from '../../../data/mock-dashboard.ts';
 
 export default function DashboardPage() {
   return (

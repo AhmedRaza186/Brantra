@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { Search, Bell, Plus } from 'lucide-react';
-import { BRAND } from '@/config/brand';
+import { BRAND } from '../../../config/brand.ts';
 
 export function AppHeader() {
   return (
@@ -57,7 +57,7 @@ export function AppHeader() {
         <div className="flex items-center gap-3 shrink-0 ml-auto lg:ml-0">
           
           {/* Mobile Search Icon */}
-          <button 
+          <button type="button" 
             className="lg:hidden flex h-10 w-10 items-center justify-center rounded-full bg-surface text-text-secondary shadow-sm hover:shadow-md transition-all focus-visible"
             aria-label="Search"
           >
@@ -65,7 +65,7 @@ export function AppHeader() {
           </button>
 
           {/* Notifications */}
-          <button 
+          <button type="button" 
             className="relative flex h-10 w-10 items-center justify-center rounded-full border border-transparent bg-surface text-ink hover:text-accent shadow-sm hover:shadow-md transition-all focus-visible"
             aria-label="Notifications"
           >
@@ -74,7 +74,7 @@ export function AppHeader() {
           </button>
 
           {/* New Deal Button */}
-          <button 
+          <button type="button" 
             className="flex h-10 items-center gap-1.5 rounded-full bg-accent px-5 text-[13px] font-bold text-white hover:bg-accent-hover shadow-sm hover:shadow-md transition-all focus-visible ml-1"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />

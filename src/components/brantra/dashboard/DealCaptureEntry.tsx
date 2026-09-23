@@ -33,7 +33,7 @@ export function DealCaptureEntry() {
         <div className={`transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
           isFocused || content ? 'max-h-12 opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2'
         }`}>
-          <button 
+          <button type="button" 
             className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-ink px-6 text-[13px] font-medium text-white hover:bg-ink/80 transition-btn focus-visible shadow-sm"
           >
             Review Deal
@@ -50,7 +50,7 @@ export function DealCaptureEntry() {
               <span className="text-[12px] font-semibold text-ink">Solace Beauty</span>
               <span className="text-[12px] text-text-secondary truncate">— Terms need review</span>
             </div>
-            <button className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
+            <button type="button" className="ml-auto text-[10px] font-bold text-accent bg-accent/5 hover:bg-accent/10 px-2 py-0.5 rounded transition-colors uppercase tracking-wider shrink-0">Review</button>
           </div>
           <div className="flex items-center gap-2.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-completed shrink-0" />

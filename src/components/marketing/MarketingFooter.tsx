@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { BRAND } from "@/config/brand";
+import { BRAND } from "../../config/brand.ts";
 
 export function MarketingFooter() {
   const currentYear = new Date().getFullYear();
@@ -47,8 +47,8 @@ export function MarketingFooter() {
             
             <div className="flex flex-col gap-4">
               <h4 className="text-[16px] font-bold font-editorial text-ink mb-2 bg-canvas border-2 border-ink px-2 py-1 inline-block -rotate-2 shadow-[2px_2px_0px_0px_rgba(30,26,29,1)]">LEGAL</h4>
-              <button disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Privacy Policy (Coming Soon)">Privacy [TBD]</button>
-              <button disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Terms of Service (Coming Soon)">Terms [TBD]</button>
+              <button type="button" disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Privacy Policy (Coming Soon)">Privacy [TBD]</button>
+              <button type="button" disabled className="text-[13px] font-mono font-bold uppercase text-ink/50 text-left cursor-not-allowed" aria-label="Terms of Service (Coming Soon)">Terms [TBD]</button>
             </div>
           </div>
 

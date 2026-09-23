@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { BRAND } from '@/config/brand';
+import { BRAND } from '../../../config/brand.ts';
 
 export function DashboardIntro() {
   const [isVisible, setIsVisible] = useState(false);
@@ -59,7 +59,7 @@ export function DashboardIntro() {
     // We defer the start to avoid synchronous setState inside effect warning
     const initTimer = setTimeout(() => {
       let shouldPlay = false;
-      const forceReplay = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('intro') === '1';
+      const forceReplay = typeof window !== 'undefined' && new URLSearchParams(globalThis.location.search).get('intro') === '1';
       
       try {
         const hasSeen = sessionStorage.getItem(BRAND.introSessionKey);
@@ -71,7 +71,7 @@ export function DashboardIntro() {
       }
 
       // Check reduced motion (unless explicitly forced)
-      const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const prefersReducedMotion = typeof window !== 'undefined' && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (prefersReducedMotion && !forceReplay) {
         shouldPlay = false;
       }
@@ -80,7 +80,9 @@ export function DashboardIntro() {
         // Cleanly skip
         try {
           sessionStorage.setItem(BRAND.introSessionKey, 'true');
-        } catch {}
+        } catch {
+          // ignore
+        }
         return;
       }
 
@@ -147,10 +149,10 @@ export function DashboardIntro() {
         beginExit('keyboard ' + e.key);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
+    globalThis.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      globalThis.removeEventListener('keydown', handleKeyDown);
       if (!cleanupDone.current) {
         completeIntro();
       }
@@ -197,7 +199,7 @@ export function DashboardIntro() {
         aria-hidden="true"
       />
       
-      <button
+      <button type="button"
         onClick={() => beginExit('skip button')}
         className="absolute top-6 right-6 px-4 py-2 rounded-md bg-ink/10 hover:bg-ink/20 text-ink/80 text-[13px] font-semibold transition-colors focus-visible outline-none focus:ring-2 focus:ring-ink/40"
         aria-label="Skip intro animation"

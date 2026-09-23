@@ -1,5 +1,5 @@
-import { PaymentRecord } from '@/types/dashboard';
-import { StatusMark } from './StatusMark';
+import { PaymentRecord } from '../../../types/dashboard.ts';
+import { StatusMark } from './StatusMark.tsx';
 
 export function PaymentLedger({ payments }: { payments: PaymentRecord[] }) {
   if (!payments || payments.length === 0) return null;

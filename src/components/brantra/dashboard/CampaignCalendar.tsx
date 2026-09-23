@@ -19,11 +19,11 @@ export function CampaignCalendar() {
       
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <button className="h-8 w-8 rounded-md flex items-center justify-center hover:bg-canvas text-text-secondary transition-btn focus-visible">
+        <button type="button" className="h-8 w-8 rounded-md flex items-center justify-center hover:bg-canvas text-text-secondary transition-btn focus-visible">
           <ChevronLeft className="h-4 w-4" />
         </button>
         <h3 className="text-[14px] font-semibold text-ink">October 2026</h3>
-        <button className="h-8 w-8 rounded-md flex items-center justify-center hover:bg-canvas text-text-secondary transition-btn focus-visible">
+        <button type="button" className="h-8 w-8 rounded-md flex items-center justify-center hover:bg-canvas text-text-secondary transition-btn focus-visible">
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>

@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { NAVIGATION_ITEMS } from '@/config/navigation';
-import { BRAND } from '@/config/brand';
+import { NAVIGATION_ITEMS } from '../../../config/navigation.ts';
+import { BRAND } from '../../../config/brand.ts';
 import { Settings } from 'lucide-react';
 
 export function AppSidebar() {
@@ -51,7 +51,7 @@ export function AppSidebar() {
 
             if (!item.available) {
               return (
-                <button
+                <button type="button"
                   key={item.label}
                   className={baseClass}
                   title={`${item.label} (Coming soon)`}
@@ -89,7 +89,7 @@ export function AppSidebar() {
                 <Settings className="h-6 w-6 stroke-[1.5] group-hover:scale-110 transition-transform" aria-label="Settings" />
               </Link>
             ) : (
-              <button aria-disabled="true" className="group flex h-12 w-12 items-center justify-center rounded-2xl transition-all text-text-secondary hover:text-ink hover:bg-canvas hover:shadow-sm focus-visible opacity-50 cursor-not-allowed" title="Settings (Coming soon)">
+              <button type="button" aria-disabled="true" className="group flex h-12 w-12 items-center justify-center rounded-2xl transition-all text-text-secondary hover:text-ink hover:bg-canvas hover:shadow-sm focus-visible opacity-50 cursor-not-allowed" title="Settings (Coming soon)">
                 <Settings className="h-6 w-6 stroke-[1.5]" aria-label="Settings" />
               </button>
             )

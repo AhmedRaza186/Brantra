@@ -51,7 +51,7 @@ export default function LoginPage() {
         <div className="pt-4">
           <button
             type="submit"
-            className="w-full h-14 flex items-center justify-center gap-2 bg-ink text-white font-bold font-mono text-[16px] uppercase tracking-widest border-2 border-ink shadow-[6px_6px_0px_0px_rgba(30,26,29,0.2)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(30,26,29,0.2)] transition-all focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+            className="w-full h-14 flex items-center justify-center gap-2 bg-accent text-white font-bold font-mono text-[16px] uppercase tracking-widest border-2 border-ink shadow-[6px_6px_0px_0px_rgba(30,26,29,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(30,26,29,1)] transition-all focus:outline-none focus:ring-2 focus:ring-ink focus:ring-offset-2"
           >
             Access Workspace <ArrowRight className="w-5 h-5" />
           </button>

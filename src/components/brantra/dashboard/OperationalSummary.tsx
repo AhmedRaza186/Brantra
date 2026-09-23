@@ -1,4 +1,4 @@
-import { OperationalMetrics } from '@/types/dashboard';
+import { OperationalMetrics } from '../../../types/dashboard.ts';
 import { Briefcase, DollarSign, Wallet } from 'lucide-react';
 
 export function OperationalSummary({ metrics }: { metrics: OperationalMetrics }) {
